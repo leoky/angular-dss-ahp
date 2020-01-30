@@ -1,0 +1,24 @@
+<mat-sidenav-container>
+    <!-- left side -->
+    <mat-sidenav #drawer
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false">
+        <mat-toolbar color="primary">
+            <span >
+                <a class="link-logo" routerLink="/">DSS</a>
+            </span>
+        </mat-toolbar>
+    </mat-sidenav>
+    <!-- right side -->
+    <mat-sidenav-content>
+        <mat-toolbar color="primary">
+            <button
+            (click)="drawer.toggle()"
+            mat-icon-button>
+                <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+            </button>
+        </mat-toolbar>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>

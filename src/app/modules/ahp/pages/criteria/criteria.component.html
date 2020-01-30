@@ -1,0 +1,23 @@
+<mat-toolbar>
+    <mat-toolbar-row>
+        <span class="m-r-a">Criteria</span>
+        <span fxLayoutAlign="end center">
+            <button mat-button>Cancel</button>
+            <button mat-button color="primary">Save</button>
+        </span>
+    </mat-toolbar-row>
+</mat-toolbar>
+<div>
+    <mat-card>
+        <form>
+            <!-- name -->
+            <mat-form-field>
+                <input matInput placeholder="Name" name="criteriaName">
+            </mat-form-field>
+            <!-- description -->
+            <mat-form-field>
+                <input matInput placeholder="Description" name="criteriaDesc">
+            </mat-form-field>
+        </form>
+    </mat-card>
+</div>

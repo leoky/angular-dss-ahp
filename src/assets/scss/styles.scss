@@ -1,0 +1,35 @@
+// utilities
+// margin
+// padding
+html, body { height: 100%; }
+body { 
+    margin: 0; 
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+ }
+.h-100p{
+    height: 100% !important;
+}
+// utilities
+.d-none{
+    display: none !important;
+}
+.d-block{
+    display: block !important;
+}
+.text-center{
+    text-align: center !important;
+}
+.text-right{
+    text-align: right !important;
+}
+.text-left{
+    text-align: left !important;
+}
+// margin
+.m-r-a{
+    margin-right: auto !important;
+}
+.m-t-10p{
+    margin-top: 10% !important;
+}
+// padding
