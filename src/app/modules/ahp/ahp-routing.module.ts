@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AhpComponent } from './ahp.component';
 import { CriteriaComponent } from './pages/criteria/criteria.component';
 import { CriteriaCalculateComponent } from './pages/criteria-calculate/criteria-calculate.component';
+import { CriteriaResultComponent } from './pages/criteria-result/criteria-result.component';
 
 const routes: Routes = [
   { path: '',
@@ -14,7 +15,8 @@ const routes: Routes = [
         children: [
           { path: '', redirectTo: 'criteria', pathMatch: 'full'},
           { path: 'criteria', component: CriteriaComponent},
-          { path: 'criteria/calculate', component: CriteriaCalculateComponent}
+          { path: 'criteria/calculate', component: CriteriaCalculateComponent},
+          { path: 'criteria/result', component: CriteriaResultComponent}
         ]
       }
     ]

@@ -15,9 +15,9 @@
                 <mat-icon>add</mat-icon>
                 <span> Add more</span>
             </button>
-            <button mat-stroked-button *ngIf="listForm.disabled" routerLink="calculate">Calculate</button>
-            <button mat-stroked-button *ngIf="listForm.disabled">Recalculate</button>
-            <button mat-stroked-button *ngIf="listForm.disabled">View Result</button>
+            <button mat-stroked-button *ngIf="listForm.disabled"routerLink="calculate">Calculate</button>
+            <button mat-stroked-button *ngIf="listForm.disabled"routerLink="calculate">Recalculate</button>
+            <button mat-stroked-button *ngIf="listForm.disabled"routerLink="result">View Result</button>
         </div>
         <!-- list form -->
         <form [formGroup]="listForm" class="m-t-10">

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 // model
 import { Criteria } from '../model/criteria';
-import { pairs } from 'rxjs';
 
 @Injectable()
 export class CriteriaService {

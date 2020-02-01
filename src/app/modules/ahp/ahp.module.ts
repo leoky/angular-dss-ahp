@@ -6,12 +6,13 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
 import {MatRadioModule} from '@angular/material/radio';
+import {MatTableModule} from '@angular/material/table';
+// service
+import { CriteriaService } from './services/criteria.service';
 // component
 import { AhpComponent } from './ahp.component';
 import { CriteriaComponent } from './pages/criteria/criteria.component';
 import { CriteriaCalculateComponent } from './pages/criteria-calculate/criteria-calculate.component';
-// service
-import { CriteriaService } from './services/criteria.service';
 import { CriteriaResultComponent } from './pages/criteria-result/criteria-result.component';
 
 @NgModule({
@@ -24,6 +25,7 @@ import { CriteriaResultComponent } from './pages/criteria-result/criteria-result
     MatSidenavModule,
     MatListModule,
     MatRadioModule,
+    MatTableModule,
   ],
   providers: [
     CriteriaService
