@@ -1,0 +1,37 @@
+<mat-toolbar>
+    <mat-toolbar-row>
+        <span class="m-r-a" fxLayoutAlign="center center">
+            <button mat-icon-button aria-label="Back"title="Back"routerLink="../">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+            <span>Criteria</span>
+        </span>
+        <span fxLayoutAlign="end center">
+            <button mat-button>Reset</button>
+            <button mat-raised-button color="primary">Calculate</button>
+        </span>
+    </mat-toolbar-row>
+</mat-toolbar>
+<div>
+    <mat-card>
+        <div class="m-t-20" *ngFor="let pair of pairwise">
+            <div fxLayoutGap="20px" fxLayoutAlign="center center">
+            <label for="" title="{{ pair[0].desc }}">{{ pair[0].name }}</label>
+                <mat-radio-group>
+                    <mat-radio-button *ngFor="let item of [9,8,7,6,5,4,3,2];let i = index" [value]="item">
+                       {{ item }}
+                    </mat-radio-button>
+                </mat-radio-group>
+                <mat-radio-group>
+                    <mat-radio-button [value]="1">1</mat-radio-button>
+                </mat-radio-group>
+                <mat-radio-group>
+                    <mat-radio-button *ngFor="let item of [2,3,4,5,6,7,8,9];let i = index" [value]="item">
+                       {{ item }}
+                    </mat-radio-button>
+                </mat-radio-group>
+                <label for="" title="{{ pair[1].desc }}">{{ pair[1].name }}</label>
+            </div>
+        </div>
+    </mat-card>
+</div>

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 // material
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
@@ -17,6 +17,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
   ],
   exports: [
     CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
     // material
     MatToolbarModule,
     MatButtonModule,

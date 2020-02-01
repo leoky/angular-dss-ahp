@@ -4,11 +4,21 @@
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="(isHandset$ | async) === false">
+        <!-- logo -->
         <mat-toolbar color="primary">
             <span >
                 <a class="link-logo" routerLink="/">DSS</a>
             </span>
         </mat-toolbar>
+        <!-- sidebar list -->
+        <mat-nav-list>
+            <div *ngFor="let item of sidebars; let i = index">
+                <a mat-list-item routerLink="{{item.link}}"routerLinkActive="mat-app-background"title="{{item.title}}">
+                    <h2 class="m-r-10">{{i+1}}</h2>
+                    <span>&nbsp;{{item.name}}</span>
+                </a>
+            </div>
+        </mat-nav-list>
     </mat-sidenav>
     <!-- right side -->
     <mat-sidenav-content>
