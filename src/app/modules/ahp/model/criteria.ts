@@ -4,7 +4,7 @@ export interface Criteria {
     name?: string;
     desc?: string;
     order?: number;
-    value?: string;
+    value?: number[];
     priorityVector?: string;
     rank?: number;
     createdAt?: Date;

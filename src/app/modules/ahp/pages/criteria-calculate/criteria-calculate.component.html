@@ -7,31 +7,50 @@
             <span>Criteria</span>
         </span>
         <span fxLayoutAlign="end center">
-            <button mat-button>Reset</button>
-            <button mat-raised-button color="primary"routerLink="../result">Calculate</button>
+            <button mat-raised-button color="primary"(click)="calculate()">Calculate</button>
         </span>
     </mat-toolbar-row>
 </mat-toolbar>
 <div>
     <mat-card>
-        <div class="m-t-20" *ngFor="let pair of pairwise">
+        <!-- <div class="m-t-20" *ngFor="let pair of pairwise">
             <div fxLayoutGap="20px" fxLayoutAlign="center center">
-            <label for="" title="{{ pair[0].desc }}">{{ pair[0].name }}</label>
-                <mat-radio-group>
-                    <mat-radio-button *ngFor="let item of [9,8,7,6,5,4,3,2];let i = index" [value]="item">
-                       {{ item }}
-                    </mat-radio-button>
-                </mat-radio-group>
-                <mat-radio-group>
-                    <mat-radio-button [value]="1">1</mat-radio-button>
-                </mat-radio-group>
-                <mat-radio-group>
-                    <mat-radio-button *ngFor="let item of [2,3,4,5,6,7,8,9];let i = index" [value]="item">
-                       {{ item }}
-                    </mat-radio-button>
-                </mat-radio-group>
-                <label for="" title="{{ pair[1].desc }}">{{ pair[1].name }}</label>
+                <label for="" title="{{ pair[0].desc }}">{{ pair[0].name }}</label>
+                    <mat-radio-group>
+                        <mat-radio-button *ngFor="let item of [9,8,7,6,5,4,3,2];let i = index" [value]="item">
+                        {{ item }}
+                        </mat-radio-button>
+                    </mat-radio-group>
+                    <mat-radio-group>
+                        <mat-radio-button [value]="1">1</mat-radio-button>
+                    </mat-radio-group>
+                    <mat-radio-group>
+                        <mat-radio-button *ngFor="let item of [2,3,4,5,6,7,8,9];let i = index" [value]="item">
+                        {{ item }}
+                        </mat-radio-button>
+                    </mat-radio-group>
+                    <label for="" title="{{ pair[1].desc }}">{{ pair[1].name }}</label>
             </div>
-        </div>
+        </div> -->
+
+        <form [formGroup]="pairForm">
+            <div class="m-t-20" *ngFor="let pair of pairwise; let i = index">
+                <div [formGroupName]="i" fxLayoutGap="20px" fxLayoutAlign="center center">
+                    <mat-radio-group formControlName="choose">
+                        <mat-radio-button value="{{ pair[0].name }}">
+                            {{pair[0].name}}
+                        </mat-radio-button>
+                        <mat-radio-button value="{{ pair[1].name }}">
+                            {{pair[1].name}}
+                        </mat-radio-button>
+                    </mat-radio-group>
+                    <mat-radio-group formControlName="value">
+                        <mat-radio-button *ngFor="let item of [2,3,4,5,6,7,8,9];let i = index" [value]="item">
+                            {{item}}
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </div>
+        </form>
     </mat-card>
 </div>

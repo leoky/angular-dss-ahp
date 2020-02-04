@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+// model
+import { Criteria } from '../../model/criteria';
 // service
 import { CriteriaService } from '../../services/criteria.service';
 
@@ -14,12 +16,15 @@ export class CriteriaComponent implements OnInit {
   // start with min 3 list
   listForm = this.fb.array([this.createList(), this.createList(), this.createList()]);
 
+  criterias: Criteria[];
+
   constructor(private fb: FormBuilder,
               private criteriaService: CriteriaService) { }
 
   ngOnInit() {
     // if already set value
     if (this.criteriaService.criterias) {
+      this.criterias = this.criteriaService.criterias;
       this.listForm.patchValue(this.criteriaService.criterias);
       this.listForm.disable();
     }
@@ -27,9 +32,10 @@ export class CriteriaComponent implements OnInit {
   // create list
   createList(): FormGroup {
     return this.fb.group({
-      name: [''],
+      name: ['', Validators.required],
       desc: [''],
-      order: []
+      order: [0],
+      value: [[]]
     });
   }
   // get list
@@ -47,11 +53,12 @@ export class CriteriaComponent implements OnInit {
   // save list
   saveList() {
     let order = 0;
-    this.criteriaService.criterias = this.listForm.value.map((x: any) => {
+    this.criteriaService.criterias = this.listForm.value.map((x: Criteria) => {
       x.order = order++;
       return x;
     });
     this.listForm.disable();
+    this.criterias = this.criteriaService.criterias;
   }
 }
 

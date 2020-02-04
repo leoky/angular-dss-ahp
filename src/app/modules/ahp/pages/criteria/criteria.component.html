@@ -16,8 +16,8 @@
                 <span> Add more</span>
             </button>
             <button mat-stroked-button *ngIf="listForm.disabled"routerLink="calculate">Calculate</button>
-            <button mat-stroked-button *ngIf="listForm.disabled"routerLink="calculate">Recalculate</button>
-            <button mat-stroked-button *ngIf="listForm.disabled"routerLink="result">View Result</button>
+            <button mat-stroked-button *ngIf="listForm.disabled && criterias[0].rank"routerLink="calculate">Recalculate</button>
+            <button mat-stroked-button *ngIf="listForm.disabled && criterias[0].rank"routerLink="result">View Result</button>
         </div>
         <!-- list form -->
         <form [formGroup]="listForm" class="m-t-10">
@@ -32,7 +32,7 @@
                         <input matInput placeholder="Description" name="criteriaDesc"formControlName="desc">
                     </mat-form-field>
                     <!-- delete button -->
-                    <button mat-icon-button aria-label="Delete"title="Delete"(click)="deleteList()"*ngIf="listForm.enabled">
+                    <button mat-icon-button aria-label="Delete"title="Delete"(click)="deleteList(i)"*ngIf="listForm.enabled">
                         <mat-icon>close</mat-icon>
                     </button>
                </div>
