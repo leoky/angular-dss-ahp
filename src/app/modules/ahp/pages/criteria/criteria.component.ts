@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 // model
-import { Criteria } from '../../model/criteria';
+import { Criteria } from '../../models/criteria';
 // service
 import { CriteriaService } from '../../services/criteria.service';
 

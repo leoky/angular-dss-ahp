@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 // service
 import { CriteriaService } from '../../services/criteria.service';
-import { Criteria } from '../../model/criteria';
+import { Criteria } from '../../models/criteria';
 
 @Component({
   selector: 'app-criteria-calculate',
