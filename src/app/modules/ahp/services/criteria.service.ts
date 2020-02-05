@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 // model
 import { Criteria } from '../models/criteria';
 
@@ -6,11 +7,23 @@ import { Criteria } from '../models/criteria';
 export class CriteriaService {
 
   criterias: Criteria[];
+  criterias$: BehaviorSubject<Criteria[]> = new BehaviorSubject<Criteria[]>(null);
 
   constructor() { }
 
+  saveCriteria(data: Criteria[]): void {
+    if (data) {
+      this.criterias = data;
+      this.criterias$.next(data);
+    }
+  }
+
   pairwise(list: Criteria[]): any[] {
     if (list) {
+      // sort by order asc
+      list.sort((a, b) => {
+        return a.order - b.order;
+      });
       if (list.length < 2) { return []; }
       const first = list[0];
       const rest = list.slice(1);
@@ -43,8 +56,17 @@ export class CriteriaService {
   }
   rank(): void {
     if (this.criterias) {
-      this.criterias.sort((a, b) => {
+      // tslint:disable-next-line: prefer-const
+      let rank = 1;
+      this.criterias.map(x => {
+        return x;
+      }).sort((a, b) => {
         return b.priorityVector - a.priorityVector;
+      }).map(x => {
+        x.rank = rank++;
+        return x;
+      }).sort((a, b) => {
+        return a.order - b.order;
       });
     }
   }

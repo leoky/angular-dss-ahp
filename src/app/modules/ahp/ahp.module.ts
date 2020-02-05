@@ -9,15 +9,17 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatTableModule} from '@angular/material/table';
 // service
 import { CriteriaService } from './services/criteria.service';
+import { AlternativeService } from './services/alternative.service';
 // component
 import { AhpComponent } from './ahp.component';
 import { CriteriaComponent } from './pages/criteria/criteria.component';
 import { CriteriaCalculateComponent } from './pages/criteria-calculate/criteria-calculate.component';
 import { CriteriaResultComponent } from './pages/criteria-result/criteria-result.component';
 import { AlternativeComponent } from './pages/alternative/alternative.component';
+import { AlternativeCalculateComponent } from './pages/alternative-calculate/alternative-calculate.component';
 
 @NgModule({
-  declarations: [AhpComponent, CriteriaComponent, CriteriaCalculateComponent, CriteriaResultComponent, AlternativeComponent],
+  declarations: [AhpComponent, CriteriaComponent, CriteriaCalculateComponent, CriteriaResultComponent, AlternativeComponent, AlternativeCalculateComponent],
   imports: [
     CommonModule,
     AhpRoutingModule,
@@ -29,7 +31,8 @@ import { AlternativeComponent } from './pages/alternative/alternative.component'
     MatTableModule,
   ],
   providers: [
-    CriteriaService
+    CriteriaService,
+    AlternativeService
   ]
 })
 export class AhpModule { }

@@ -25,10 +25,12 @@ export class CriteriaResultComponent implements OnInit {
       // add data to table
       this.dataSource = this.criteriaService.criterias.map((criteria, index) => {
         return {
-          rank: index + 1,
+          rank: criteria.rank,
           name: criteria.name,
           percentage: criteria.priorityVector * 100
         };
+      }).sort((a, b) => {
+        return a.rank - b.rank;
       });
     }
   }

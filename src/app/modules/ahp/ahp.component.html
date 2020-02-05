@@ -18,6 +18,24 @@
                     <span>&nbsp;{{item.name}}</span>
                 </a>
             </div>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title fxLayoutAlign="start center">
+                        <h2 class="m-r-10">3</h2>
+                        <span>&nbsp;Calculate</span>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div *ngFor="let item of criterias$ | async; let i = index">
+                    <a mat-list-item routerLink="alternative/calculate/{{i}}"routerLinkActive="mat-app-background"title="{{item.desc}}">
+                        <h2 class="m-r-10">-</h2>
+                        <span>&nbsp;{{item.name}}</span>
+                    </a>
+                </div>
+            </mat-expansion-panel>
+            <a mat-list-item routerLink="result"routerLinkActive="mat-app-background"title="Result">
+                <h2 class="m-r-10">4</h2>
+                <span>&nbsp;Result</span>
+            </a>
         </mat-nav-list>
     </mat-sidenav>
     <!-- right side -->

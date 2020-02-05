@@ -24,7 +24,9 @@ export class CriteriaComponent implements OnInit {
   ngOnInit() {
     // if already set value
     if (this.criteriaService.criterias) {
-      this.criterias = this.criteriaService.criterias;
+      this.criterias = this.criteriaService.criterias.sort((a, b) => {
+        return a.order - b.order;
+      });
       this.listForm.patchValue(this.criteriaService.criterias);
       this.listForm.disable();
     }
@@ -58,6 +60,7 @@ export class CriteriaComponent implements OnInit {
       return x;
     });
     this.listForm.disable();
+    this.criteriaService.saveCriteria(this.criteriaService.criterias);
     this.criterias = this.criteriaService.criterias;
   }
 }

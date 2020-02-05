@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+// service
+import { CriteriaService } from './services/criteria.service';
+import { Criteria } from './models/criteria';
 
 @Component({
   selector: 'app-ahp',
@@ -28,7 +31,11 @@ export class AhpComponent implements OnInit {
       title: ''
     }
   ];
-  constructor(private breakpointObserver: BreakpointObserver) { }
+  // auto update value if updated
+  criterias$: Observable<Criteria[]> = this.criteriaService.criterias$;
+
+  constructor(private breakpointObserver: BreakpointObserver,
+              private criteriaService: CriteriaService) { }
 
   ngOnInit() {
   }
