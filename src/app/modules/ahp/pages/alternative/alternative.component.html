@@ -1,1 +1,42 @@
-<p>alternative works!</p>
+<mat-toolbar>
+    <mat-toolbar-row>
+        <span class="m-r-a">Alternative</span>
+        <span fxLayoutAlign="end center">
+            <button mat-button *ngIf="listForm.enabled && alternatives" [disabled]="listForm.invalid" (click)="listForm.disable()">Cancel</button>
+            <button mat-button *ngIf="listForm.enabled" [disabled]="listForm.invalid" color="primary"(click)="saveList()">Save</button>
+            <button mat-button *ngIf="!listForm.enabled" color="primary"(click)="listForm.enable()">Edit</button>
+        </span>
+    </mat-toolbar-row>
+</mat-toolbar>
+<div>
+    <mat-card>
+        <div fxLayoutGap="20px">
+            <button mat-stroked-button (click)="addList()" *ngIf="listForm.enabled">
+                <mat-icon>add</mat-icon>
+                <span> Add more</span>
+            </button>
+            <button mat-stroked-button *ngIf="listForm.disabled && !alternatives[0].priorityVector"routerLink="calculate">Calculate</button>
+            <button mat-stroked-button *ngIf="listForm.disabled && alternatives[0].priorityVector"routerLink="calculate">Recalculate</button>
+            <button mat-stroked-button *ngIf="listForm.disabled && alternatives[0].priorityVector"routerLink="result">View Result</button>
+        </div>
+        <!-- list form -->
+        <form [formGroup]="listForm" class="m-t-10">
+           <div *ngFor="let item of getList.controls; let i = index">
+               <div [formGroupName]="i" fxLayoutGap="20px">
+                    <!-- name -->
+                    <mat-form-field>
+                        <input required matInput placeholder="Name" name="criteriaName"formControlName="name">
+                    </mat-form-field>
+                    <!-- description -->
+                    <mat-form-field>
+                        <input matInput placeholder="Description" name="criteriaDesc"formControlName="desc">
+                    </mat-form-field>
+                    <!-- delete button -->
+                    <button mat-icon-button aria-label="Delete"title="Delete"(click)="deleteList(i)"*ngIf="listForm.enabled">
+                        <mat-icon>close</mat-icon>
+                    </button>
+               </div>
+           </div>
+        </form>
+    </mat-card>
+</div>

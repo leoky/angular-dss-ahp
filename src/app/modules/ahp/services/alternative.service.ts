@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
+// model
+import { Alternative } from '../models/alternative';
+// service
+import { CriteriaService } from './criteria.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AlternativeService {
 
+  alternatives: Alternative[];
+
   constructor() { }
+
+
 }
