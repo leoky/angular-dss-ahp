@@ -40,6 +40,9 @@ export class CriteriaCalculateComponent implements OnInit {
   calculate() {
     console.log(this.pairForm.value);
     this.criteriaService.criterias.map((criteria: Criteria, index: number) => {
+      // reset value first
+      this.criteriaService.criterias[index].value = [];
+
       this.pairForm.value.map((x: any, mapIndex: number) => {
         if (index === mapIndex && index < this.criteriaService.criterias.length - 1) {
           this.criteriaService.criterias[index].value.push(1);

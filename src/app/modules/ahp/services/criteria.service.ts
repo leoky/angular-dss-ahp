@@ -5,7 +5,6 @@ import { Criteria } from '../model/criteria';
 @Injectable()
 export class CriteriaService {
 
-  criteria: Criteria;
   criterias: Criteria[];
 
   constructor() { }
@@ -19,6 +18,34 @@ export class CriteriaService {
         return [first, x];
       });
       return pair.concat(this.pairwise(rest));
+    }
+  }
+
+  calculate(): void {
+    if (this.criterias) {
+      const total = this.criterias.map((c, index) => {
+        // tslint:disable-next-line: prefer-const
+        let sum = 0;
+        this.criterias.map((x) => {
+          sum += x.value[index];
+        });
+        return sum;
+      });
+      this.criterias.map((c, cIndex) => {
+        let sum = 0;
+        c.value.map((value, index) => {
+          sum += (value / total[index]);
+        });
+        this.criterias[cIndex].priorityVector = sum / this.criterias.length;
+      });
+      this.rank();
+    }
+  }
+  rank(): void {
+    if (this.criterias) {
+      this.criterias.sort((a, b) => {
+        return b.priorityVector - a.priorityVector;
+      });
     }
   }
 }
