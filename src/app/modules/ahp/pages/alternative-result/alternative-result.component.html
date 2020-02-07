@@ -1,14 +1,14 @@
 <mat-toolbar>
     <mat-toolbar-row>
         <span class="m-r-a" fxLayoutAlign="center center">
-            <button mat-icon-button aria-label="Back"title="Back"routerLink="../">
+            <button mat-icon-button aria-label="Back"title="Back"(click)="goBack()">
                 <mat-icon>arrow_back</mat-icon>
             </button>
-            <span>Criteria - Result</span>
+        <span *ngIf="criteriaName">Alternative - Result</span>
         </span>
         <span fxLayoutAlign="end center">
-            <button mat-button routerLink="../calculate">Recalculate</button>
-            <button mat-raised-button color="primary"routerLink="../../alternative">Next</button>
+            <button mat-button routerLink="../../calculate/{{paramId}}">Recalculate</button>
+            <button mat-raised-button color="primary" routerLink="../../calculate/{{paramId+1}}">Next</button>
         </span>
     </mat-toolbar-row>
 </mat-toolbar>

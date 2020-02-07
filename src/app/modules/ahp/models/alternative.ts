@@ -1,12 +1,11 @@
+import { Criteria } from './criteria';
+
 export interface Alternative {
     _id?: string;
     decisionId?: string;
-    name?: string;
-    desc?: string;
-    order?: number;
-    value?: number[];
-    priorityVector?: number;
-    rank?: number;
+    criteriaId?: string;
+    criteriaName?: string;
+    alternatives?: Criteria[];
     createdAt?: Date;
     updatedAt?: Date;
 }

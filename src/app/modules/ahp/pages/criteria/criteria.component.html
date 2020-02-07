@@ -5,6 +5,7 @@
             <button mat-button *ngIf="listForm.enabled && criterias" [disabled]="listForm.invalid" (click)="listForm.disable()">Cancel</button>
             <button mat-button *ngIf="listForm.enabled" [disabled]="listForm.invalid" color="primary"(click)="saveList()">Save</button>
             <button mat-button *ngIf="!listForm.enabled" color="primary"(click)="listForm.enable()">Edit</button>
+            <button mat-raised-button color="primary" *ngIf="listForm.disabled && !criterias[0].priorityVector"routerLink="calculate">Calculate</button>
         </span>
     </mat-toolbar-row>
 </mat-toolbar>
@@ -15,7 +16,6 @@
                 <mat-icon>add</mat-icon>
                 <span> Add more</span>
             </button>
-            <button mat-stroked-button *ngIf="listForm.disabled && !criterias[0].priorityVector"routerLink="calculate">Calculate</button>
             <button mat-stroked-button *ngIf="listForm.disabled && criterias[0].priorityVector"routerLink="calculate">Recalculate</button>
             <button mat-stroked-button *ngIf="listForm.disabled && criterias[0].priorityVector"routerLink="result">View Result</button>
         </div>

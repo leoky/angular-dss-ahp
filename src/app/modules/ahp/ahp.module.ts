@@ -17,9 +17,11 @@ import { CriteriaCalculateComponent } from './pages/criteria-calculate/criteria-
 import { CriteriaResultComponent } from './pages/criteria-result/criteria-result.component';
 import { AlternativeComponent } from './pages/alternative/alternative.component';
 import { AlternativeCalculateComponent } from './pages/alternative-calculate/alternative-calculate.component';
+import { AlternativeResultComponent } from './pages/alternative-result/alternative-result.component';
 
 @NgModule({
-  declarations: [AhpComponent, CriteriaComponent, CriteriaCalculateComponent, CriteriaResultComponent, AlternativeComponent, AlternativeCalculateComponent],
+  declarations: [AhpComponent, CriteriaComponent, CriteriaCalculateComponent, CriteriaResultComponent,
+    AlternativeComponent, AlternativeCalculateComponent, AlternativeResultComponent],
   imports: [
     CommonModule,
     AhpRoutingModule,

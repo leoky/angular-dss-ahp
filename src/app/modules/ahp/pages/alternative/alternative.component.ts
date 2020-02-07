@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 // model
-import { Alternative } from '../../models/alternative';
+import { Criteria } from '../../models/criteria';
 // service
 import { AlternativeService } from '../../services/alternative.service';
 @Component({
@@ -14,7 +14,8 @@ export class AlternativeComponent implements OnInit {
   // start with min 3 list
   listForm = this.fb.array([this.createList(), this.createList(), this.createList()]);
 
-  alternatives: Alternative[];
+  alternatives: Criteria[];
+
   constructor(private fb: FormBuilder,
               private alternativeService: AlternativeService) { }
 
@@ -49,13 +50,19 @@ export class AlternativeComponent implements OnInit {
   }
   // save list
   saveList() {
+    // add order
     let order = 0;
-    this.alternativeService.alternatives = this.listForm.value.map((x: Alternative) => {
+    this.alternativeService.alternatives = this.listForm.value.map((x: Criteria) => {
       x.order = order++;
       return x;
     });
+
     this.listForm.disable();
+
+    // update this local varibel
     this.alternatives = this.alternativeService.alternatives;
+
+    this.alternativeService.createAltCrit();
     }
   }
 
