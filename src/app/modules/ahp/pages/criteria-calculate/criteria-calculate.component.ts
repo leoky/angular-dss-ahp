@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 // service
 import { CriteriaService } from '../../services/criteria.service';
 import { Criteria } from '../../models/criteria';
+import { AlternativeService } from '../../services/alternative.service';
 
 @Component({
   selector: 'app-criteria-calculate',

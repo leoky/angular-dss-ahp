@@ -81,10 +81,9 @@ export class AlternativeCalculateComponent implements OnInit {
     });
   }
   calculate() {
-    this.altService.altCrits[this.paramId].alternatives.map((alternative: Criteria, index: number) => {
+    this.altService.altCrits[this.paramId].alternatives.forEach((alternative: Criteria, index: number) => {
       this.altService.altCrits[this.paramId].alternatives[index].value = [];
-
-      this.pairForm.value.map((x: any, mapIndex: number) => {
+      this.pairForm.value.forEach((x: any, mapIndex: number) => {
 
         if (index === mapIndex && index < this.altService.altCrits[this.paramId].alternatives.length - 1) {
           this.altService.altCrits[this.paramId].alternatives[index].value.push(1);

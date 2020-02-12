@@ -11,7 +11,7 @@ export class AltCrit {
 export class AlternativeService {
 
   alternatives: Criteria[];
-  altCrits: Alternative[] = [];
+  altCrits: Alternative[];
 
   constructor(private criteriaService: CriteriaService) { }
 
@@ -37,8 +37,9 @@ export class AlternativeService {
       result.map(x => {
         if (this.alternatives) {
           this.altCrits.push({
+            order: x.order,
             criteriaName: x.name,
-            alternatives: this.alternatives
+            alternatives: this.alternatives.map(alt => ({...alt}))
           });
         }
       });
@@ -78,6 +79,21 @@ export class AlternativeService {
       // tslint:disable-next-line: prefer-const
       let rank = 1;
       this.altCrits[id].alternatives.map(x => {
+        return x;
+      }).sort((a, b) => {
+        return b.priorityVector - a.priorityVector;
+      }).map(x => {
+        x.rank = rank++;
+        return x;
+      }).sort((a, b) => {
+        return a.order - b.order;
+      });
+    }
+  }
+  rankFinal(): void {
+    if (this.alternatives) {
+      let rank = 1;
+      this.alternatives.map(x => {
         return x;
       }).sort((a, b) => {
         return b.priorityVector - a.priorityVector;

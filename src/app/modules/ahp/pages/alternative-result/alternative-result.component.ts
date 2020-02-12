@@ -29,22 +29,26 @@ export class AlternativeResultComponent implements OnInit {
       // + for change to be type number
       this.paramId = +params.get('id');
 
-      if (this.alternativeService.altCrits[this.paramId] && params.get('id')) {
-        this.criteriaName = this.alternativeService.altCrits[this.paramId].criteriaName;
-        // calculate first
-        this.alternativeService.calculate(this.paramId);
-        // insert data to chart.js
-        this.createChart();
-        // add data to table
-        this.dataSource = this.alternativeService.altCrits[this.paramId].alternatives.map((alternative) => {
-          return {
-            rank: alternative.rank,
-            name: alternative.name,
-            percentage: alternative.priorityVector * 100
-          };
-        }).sort((a, b) => {
-          return a.rank - b.rank;
-        });
+      if (params.get('id')) {
+
+        if (this.alternativeService.altCrits) {
+
+          this.criteriaName = this.alternativeService.altCrits[this.paramId].criteriaName;
+          // calculate first
+          this.alternativeService.calculate(this.paramId);
+          // insert data to chart.js
+          this.createChart();
+          // add data to table
+          this.dataSource = this.alternativeService.altCrits[this.paramId].alternatives.map((alternative) => {
+            return {
+              rank: alternative.rank,
+              name: alternative.name,
+              percentage: alternative.priorityVector * 100
+            };
+          }).sort((a, b) => {
+            return a.rank - b.rank;
+          });
+        }
       }
     });
   }

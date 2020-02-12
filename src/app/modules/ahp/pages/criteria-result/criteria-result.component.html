@@ -4,7 +4,7 @@
             <button mat-icon-button aria-label="Back"title="Back"routerLink="../">
                 <mat-icon>arrow_back</mat-icon>
             </button>
-            <span>Criteria - Result</span>
+            <span>Result</span>
         </span>
         <span fxLayoutAlign="end center">
             <button mat-button routerLink="../calculate">Recalculate</button>
@@ -14,36 +14,41 @@
 </mat-toolbar>
 
 <div>
-    <mat-card fxLayoutGap="20px"fxLayout="column" fxLayout.gt-xs="row">
-        <div fxFlex.gt-xs="50" fxFlex="100" *ngIf="chart">
-            <table mat-table [dataSource]="dataSource" class="mat-elevation-z1 w-100p">
-                <!-- rank Column -->
-                <ng-container matColumnDef="rank">
-                    <th mat-header-cell *matHeaderCellDef> Rank </th>
-                    <td mat-cell *matCellDef="let element"> {{element.rank}} </td>
-                </ng-container>
-
-                <!-- Name Column -->
-                <ng-container matColumnDef="name">
-                    <th mat-header-cell *matHeaderCellDef> Name </th>
-                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-                </ng-container>
-
-                <!-- percentage Column -->
-                <ng-container matColumnDef="percentage">
-                    <th mat-header-cell *matHeaderCellDef> Percentage </th>
-                    <td mat-cell *matCellDef="let element"> {{element.percentage | number : '1.2-2'}}%</td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-        </div>
-
-        <div fxFlex.gt-xs="50" fxFlex="100">
-            <div [hidden]="!chart">
-                <canvas id="canvas"></canvas>
+    <mat-card>
+        <mat-card-header *ngIf="chart">
+            <mat-card-title>Criteria</mat-card-title>
+        </mat-card-header>
+        <mat-card-content fxLayoutGap="20px"fxLayout="column" fxLayout.gt-xs="row">
+            <div fxFlex.gt-xs="50" fxFlex="100" *ngIf="chart">
+                <table mat-table *ngIf="dataSource" [dataSource]="dataSource" class="mat-elevation-z1 w-100p">
+                    <!-- rank Column -->
+                    <ng-container matColumnDef="rank">
+                        <th mat-header-cell *matHeaderCellDef> Rank </th>
+                        <td mat-cell *matCellDef="let element"> {{element.rank}} </td>
+                    </ng-container>
+    
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef> Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    </ng-container>
+    
+                    <!-- percentage Column -->
+                    <ng-container matColumnDef="percentage">
+                        <th mat-header-cell *matHeaderCellDef> Percentage </th>
+                        <td mat-cell *matCellDef="let element"> {{element.percentage | number : '1.2-2'}}%</td>
+                    </ng-container>
+    
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
             </div>
-        </div>
+    
+            <div fxFlex.gt-xs="50" fxFlex="100">
+                <div [hidden]="!chart">
+                    <canvas id="canvas"></canvas>
+                </div>
+            </div>
+        </mat-card-content>
     </mat-card>
 </div>

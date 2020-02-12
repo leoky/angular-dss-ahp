@@ -18,10 +18,11 @@ import { CriteriaResultComponent } from './pages/criteria-result/criteria-result
 import { AlternativeComponent } from './pages/alternative/alternative.component';
 import { AlternativeCalculateComponent } from './pages/alternative-calculate/alternative-calculate.component';
 import { AlternativeResultComponent } from './pages/alternative-result/alternative-result.component';
+import { FinalResultComponent } from './pages/final-result/final-result.component';
 
 @NgModule({
   declarations: [AhpComponent, CriteriaComponent, CriteriaCalculateComponent, CriteriaResultComponent,
-    AlternativeComponent, AlternativeCalculateComponent, AlternativeResultComponent],
+    AlternativeComponent, AlternativeCalculateComponent, AlternativeResultComponent, FinalResultComponent],
   imports: [
     CommonModule,
     AhpRoutingModule,

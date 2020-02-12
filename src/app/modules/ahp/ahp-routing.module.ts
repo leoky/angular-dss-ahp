@@ -8,6 +8,7 @@ import { CriteriaResultComponent } from './pages/criteria-result/criteria-result
 import { AlternativeComponent } from './pages/alternative/alternative.component';
 import { AlternativeCalculateComponent } from './pages/alternative-calculate/alternative-calculate.component';
 import { AlternativeResultComponent } from './pages/alternative-result/alternative-result.component';
+import { FinalResultComponent } from './pages/final-result/final-result.component';
 
 const routes: Routes = [
   { path: '',
@@ -24,6 +25,8 @@ const routes: Routes = [
           { path: 'alternative', component: AlternativeComponent},
           { path: 'alternative/calculate/:id', component: AlternativeCalculateComponent},
           { path: 'alternative/result/:id', component: AlternativeResultComponent},
+
+          { path: 'result', component: FinalResultComponent},
         ]
       }
     ]

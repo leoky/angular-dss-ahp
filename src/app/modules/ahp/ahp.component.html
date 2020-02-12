@@ -26,7 +26,7 @@
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div *ngFor="let item of criterias$ | async; let i = index">
-                    <a mat-list-item [routerLink]="['alternative/calculate', i]"routerLinkActive="mat-app-background"title="Criteria - {{item.name | titlecase}}">
+                    <a mat-list-item routerLink="alternative/calculate/{{i}}"routerLinkActive="mat-app-background"title="Criteria - {{item.name | titlecase}}">
                         <h2 class="m-r-10">-</h2>
                         <span>&nbsp;{{item.name | titlecase}}</span>
                     </a>

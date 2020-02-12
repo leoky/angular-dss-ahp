@@ -27,6 +27,11 @@ export class CriteriaComponent implements OnInit {
       this.criterias = this.criteriaService.criterias.sort((a, b) => {
         return a.order - b.order;
       });
+      // generate list form
+      this.listForm.clear();
+      this.criteriaService.criterias.forEach(x => {
+        this.addList();
+      });
       this.listForm.patchValue(this.criteriaService.criterias);
       this.listForm.disable();
     }

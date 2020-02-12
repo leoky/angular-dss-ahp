@@ -23,6 +23,11 @@ export class AlternativeComponent implements OnInit {
     // if already set value
     if (this.alternativeService.alternatives) {
       this.alternatives = this.alternativeService.alternatives;
+      // generate form
+      this.listForm.clear();
+      this.alternatives.forEach(x => {
+        this.addList();
+      });
       this.listForm.patchValue(this.alternativeService.alternatives);
       this.listForm.disable();
     }
