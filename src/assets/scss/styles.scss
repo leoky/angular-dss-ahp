@@ -12,6 +12,15 @@ body {
 .w-100p{
     width: 100% !important;
 }
+/* layout */
+.sticky {
+    position: sticky;
+    top: 0;
+    z-index: 99;
+}
+.cursor-pointer{
+    cursor: pointer;
+}
 // utilities
 .d-none{
     display: none !important;
@@ -43,5 +52,8 @@ body {
 }
 .m-t-10p{
     margin-top: 10% !important;
+}
+.m-t-20p{
+    margin-top: 20% !important;
 }
 // padding

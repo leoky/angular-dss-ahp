@@ -8,6 +8,12 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatSelectModule} from '@angular/material/select';
+import {MatNativeDateModule} from '@angular/material';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 // library
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -27,6 +33,12 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatCardModule,
     MatInputModule,
     MatExpansionModule,
+    MatProgressSpinnerModule,
+    MatMenuModule,
+    MatDividerModule,
+    MatSelectModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
     // library
     FlexLayoutModule,
   ]

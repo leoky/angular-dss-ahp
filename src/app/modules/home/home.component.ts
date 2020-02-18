@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { UserService } from 'src/app/shared/services/user.service';
+import { User } from 'src/app/shared/models/user';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  user$: Observable<User>;
+
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
+    if (this.userService.user$) {
+      this.user$ = this.userService.user$;
+    }
   }
 
 }

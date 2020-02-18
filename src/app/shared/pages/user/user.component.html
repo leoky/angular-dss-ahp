@@ -1,0 +1,63 @@
+<div >
+    <mat-toolbar class="sticky">
+        <span class="m-r-a" fxLayoutAlign="center center">
+            <button mat-icon-button aria-label="Back" title="Back" (click)="goBack()">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+            <span>Profile</span>
+        </span>
+        <span fxLayoutAlign="end center">
+            <button mat-button color="primary"
+                *ngIf="userForm.disabled"
+                (click)="userForm.enable()">Edit</button>
+            <button mat-button 
+                *ngIf="userForm.enabled" 
+                (click)="cancel()">Cancel</button>
+            <button mat-raised-button color="primary"
+                *ngIf="userForm.dirty && userForm.enabled"
+                [disabled]="userForm.invalid"
+                (click)="userForm.enable()">Save</button>
+        </span>
+    </mat-toolbar>
+
+   <div fxLayout="column" fxLayoutAlign="start center" class="m-t-20">
+        <mat-card>
+            <mat-card-content>
+                <form fxLayout="column" [formGroup]="userForm">
+                    <!-- name -->
+                    <mat-form-field>
+                        <mat-label>Full Name</mat-label>
+                        <input matInput placeholder="input full name" formControlName="name">
+                    </mat-form-field>
+                    <!-- email -->
+                    <mat-form-field>
+                        <mat-label>Email</mat-label>
+                        <input matInput placeholder="input email" required email formControlName="email" email>
+                    </mat-form-field>
+                    <!-- phone number -->
+                    <mat-form-field>
+                        <mat-label>Phone Number</mat-label>
+                        <input matInput placeholder="input phone number" #phone minLength="10"maxLength="12" formControlName="phone">
+                        <mat-hint align="end">{{phone.value.length}} / 12</mat-hint>
+                    </mat-form-field>
+                    <!-- gender -->
+                    <mat-form-field>
+                        <mat-label>Gender</mat-label>
+                        <mat-select formControlName="gender">
+                            <mat-option value="-">-</mat-option>
+                            <mat-option value="male">Male</mat-option>
+                            <mat-option value="female">Female</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <!-- birth -->
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="picker" placeholder="Birth" (click)="picker.open()" formControlName="birth">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker touchUi></mat-datepicker>
+                    </mat-form-field>
+                </form>
+            </mat-card-content>
+        </mat-card>
+   </div>
+</div>
+    
