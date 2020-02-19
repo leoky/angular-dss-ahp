@@ -2,15 +2,22 @@
     <!-- left side -->
     <mat-sidenav #drawer
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    [opened]="(isHandset$ | async) === false">
+    [mode]="(isHandset$ | async) ? 'over' : 'side'">
         <!-- logo -->
-        <mat-toolbar color="primary" class="sticky mat-elevation-z2">
-            <span >
+        <!-- <mat-toolbar class="sticky mat-elevation-z2"> -->
+            <!-- <span >
                 <a class="link-logo" routerLink="/">DSS</a>
-            </span>
-        </mat-toolbar>
-        <!-- sidebar list -->
+            </span> -->
+            <!-- </mat-toolbar> -->
+            <!-- sidebar list -->
+        <div class="title">
+            <form>
+                <mat-form-field>
+                    <input matInput required placeholder="Title" [formControl]="decisionName">
+                </mat-form-field>
+            </form>
+        </div>
+        <mat-divider></mat-divider>
         <mat-nav-list>
             <div *ngFor="let item of sidebars; let i = index">
                 <a mat-list-item routerLink="{{item.link}}"routerLinkActive="mat-app-background"title="{{item.title}}">
@@ -41,38 +48,38 @@
     <!-- right side -->
     <mat-sidenav-content>
         <mat-toolbar color="primary" class="sticky mat-elevation-z2">
-            <button mat-icon-button
-            (click)="drawer.toggle()"
-            class="m-r-a">
-                <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-            </button>
+            <span class="m-r-a">
+                <button mat-icon-button
+                (click)="drawer.toggle()"
+                *ngIf="showNav">
+                    <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+                </button>
+            </span>
 
             <span fxLayoutAlign="end center">
-            <button mat-button routerLink="/register" *ngIf="!(user$ | async)">Sign up</button>
-            <button mat-raised-button routerLink="/login" *ngIf="!(user$ | async)">Log in</button>
-            <!-- if login -->
-            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu" *ngIf="!(user$ | async)">
-                <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-                <button mat-menu-item routerLinkActive="d-none" routerLink="/user" *ngIf="user$ | async as user">
-                    <span>{{ user.email }}</span>
+                <button mat-button routerLink="/register" *ngIf="!(user$ | async)">Sign up</button>
+                <button mat-raised-button routerLink="/login" *ngIf="!(user$ | async)">Log in</button>
+                <!-- if login -->
+                <button mat-raised-button routerLink="../0/my-list" routerLinkActive="d-none">My List</button>
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu" *ngIf="!(user$ | async)">
+                    <mat-icon>more_vert</mat-icon>
                 </button>
-                <button mat-menu-item routerLinkActive="d-none" routerLink="/user" >
-                    <span>test@gmail.com</span>
-                </button>
-                <button mat-menu-item routerLinkActive="d-none" routerLink="/login">
-                    <span>Switch User</span>
-                </button>
-                <button mat-menu-item routerLinkActive="d-none" routerLink="/ahp">
-                    <span>AHP</span>
-                </button>
-                <button mat-menu-item routerLinkActive="d-none">
-                    <mat-icon>exit_to_app</mat-icon>
-                    <span>Log out</span>
-                </button>
-            </mat-menu>
-        </span>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item routerLinkActive="d-none" routerLink="/user" *ngIf="user$ | async as user">
+                        <span>{{ user.email }}</span>
+                    </button>
+                    <button mat-menu-item routerLinkActive="d-none" routerLink="/user" >
+                        <span>test@gmail.com</span>
+                    </button>
+                    <button mat-menu-item routerLinkActive="d-none" routerLink="/login">
+                        <span>Switch User</span>
+                    </button>
+                    <button mat-menu-item routerLinkActive="d-none">
+                        <mat-icon>exit_to_app</mat-icon>
+                        <span>Log out</span>
+                    </button>
+                </mat-menu>
+            </span>
         </mat-toolbar>
         <router-outlet></router-outlet>
     </mat-sidenav-content>

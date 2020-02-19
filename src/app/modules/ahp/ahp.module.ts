@@ -10,6 +10,7 @@ import {MatTableModule} from '@angular/material/table';
 // service
 import { CriteriaService } from './services/criteria.service';
 import { AlternativeService } from './services/alternative.service';
+import { DecisionService } from './services/decision.service';
 // component
 import { AhpComponent } from './ahp.component';
 import { CriteriaComponent } from './pages/criteria/criteria.component';
@@ -19,10 +20,11 @@ import { AlternativeComponent } from './pages/alternative/alternative.component'
 import { AlternativeCalculateComponent } from './pages/alternative-calculate/alternative-calculate.component';
 import { AlternativeResultComponent } from './pages/alternative-result/alternative-result.component';
 import { FinalResultComponent } from './pages/final-result/final-result.component';
+import { MyListComponent } from './pages/my-list/my-list.component';
 
 @NgModule({
   declarations: [AhpComponent, CriteriaComponent, CriteriaCalculateComponent, CriteriaResultComponent,
-    AlternativeComponent, AlternativeCalculateComponent, AlternativeResultComponent, FinalResultComponent],
+    AlternativeComponent, AlternativeCalculateComponent, AlternativeResultComponent, FinalResultComponent, MyListComponent],
   imports: [
     CommonModule,
     AhpRoutingModule,
@@ -35,7 +37,8 @@ import { FinalResultComponent } from './pages/final-result/final-result.componen
   ],
   providers: [
     CriteriaService,
-    AlternativeService
+    AlternativeService,
+    DecisionService
   ]
 })
 export class AhpModule { }

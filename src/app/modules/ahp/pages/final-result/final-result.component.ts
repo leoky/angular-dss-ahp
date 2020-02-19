@@ -18,7 +18,7 @@ export class FinalResultComponent implements OnInit {
   dataSource: any[];
 
   constructor(private criteriaService: CriteriaService,
-              private alternativeService: AlternativeService) { }
+              public alternativeService: AlternativeService) { }
 
   ngOnInit() {
     if (this.criteriaService.criterias && this.alternativeService.altCrits) {

@@ -19,7 +19,7 @@ export class AlternativeResultComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private location: Location,
-              private alternativeService: AlternativeService) { }
+              public alternativeService: AlternativeService) { }
 
   paramId: number;
   criteriaName: string;

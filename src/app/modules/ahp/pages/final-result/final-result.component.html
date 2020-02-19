@@ -3,7 +3,10 @@
         <span class="m-r-a" fxLayoutAlign="center center">
         <span>Final Result</span>
         </span>
-        <span fxLayoutAlign="end center">
+        <span fxLayoutAlign="end center" *ngIf="alternativeService.alternatives">
+            <button mat-raised-button
+            [disabled]="!alternativeService.alternatives[0].priorityVector"
+            color="primary">Save</button>
         </span>
     </mat-toolbar-row>
 </mat-toolbar>

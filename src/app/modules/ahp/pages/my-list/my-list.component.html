@@ -1,0 +1,27 @@
+<mat-toolbar>
+    <mat-toolbar-row>
+        <span>My List</span>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<div>
+     <mat-card fxFlex="100" fxFlex.gt-sm="60">
+        <mat-list>
+            <mat-list-item  *ngFor="let item of myList; let index = index">
+                <h3 mat-line routerLink="/ahp/{{item}}" class="cursor-pointer">
+                    Decision pertama
+                </h3>
+              <p mat-line>Created at: 25 sept 2018</p>
+              <div fxLayoutAlign="center center">
+                <button mat-icon-button aria-label="Edit" title="Edit" routerLink="/ahp/{{item}}">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button aria-label="delete" title="delete" (click)="delete(0)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+              <mat-divider *ngIf="index != myList.length -1"></mat-divider>
+            </mat-list-item>
+          </mat-list>
+     </mat-card> 
+</div>

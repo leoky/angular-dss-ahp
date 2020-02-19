@@ -102,7 +102,7 @@ export class AlternativeCalculateComponent implements OnInit {
       });
     });
     console.log(this.altService.altCrits);
-    this.router.navigate(['/ahp/alternative/result', this.paramId]);
+    this.router.navigate(['/ahp/create/alternative/result', this.paramId]);
   }
   goBack() {
     this.location.back();

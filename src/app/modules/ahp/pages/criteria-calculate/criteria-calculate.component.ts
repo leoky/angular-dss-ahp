@@ -61,6 +61,6 @@ export class CriteriaCalculateComponent implements OnInit {
       });
     });
     console.log(this.criteriaService.criterias);
-    this.router.navigate(['/ahp/criteria', 'result']);
+    this.router.navigate(['/ahp/create/criteria', 'result']);
   }
 }

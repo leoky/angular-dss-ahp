@@ -9,9 +9,10 @@ import { AlternativeComponent } from './pages/alternative/alternative.component'
 import { AlternativeCalculateComponent } from './pages/alternative-calculate/alternative-calculate.component';
 import { AlternativeResultComponent } from './pages/alternative-result/alternative-result.component';
 import { FinalResultComponent } from './pages/final-result/final-result.component';
+import { MyListComponent } from './pages/my-list/my-list.component';
 
 const routes: Routes = [
-  { path: '',
+  { path: ':id',
     component: AhpComponent,
     children: [
       {
@@ -27,6 +28,8 @@ const routes: Routes = [
           { path: 'alternative/result/:id', component: AlternativeResultComponent},
 
           { path: 'result', component: FinalResultComponent},
+
+          { path: 'my-list', component: MyListComponent},
         ]
       }
     ]
