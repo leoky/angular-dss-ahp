@@ -4,7 +4,7 @@
             <h1 routerLink="/" class="text-center cursor-pointer">DSS</h1>
         </div> -->
         <mat-card class="mat-elevation-z4 text-center" >
-                <mat-card-title>Join us,</mat-card-title>
+                <mat-card-title>Join us</mat-card-title>
             <mat-card-content>
                 <form [formGroup]="regisForm" class="m-t-10p">
                     <!-- name -->
@@ -24,7 +24,7 @@
                         <input matInput placeholder="Confirm Password" type="password" formControlName="repassword">
                     </mat-form-field>
                     <!-- button -->
-                    <button mat-raised-button color="primary" class="w-100p m-t-10p" (click)="clicked = true" [disabled]="regisForm.invalid">Log in</button>
+                    <button mat-raised-button color="primary" class="w-100p m-t-10p" (click)="register(); clicked = true" [disabled]="regisForm.invalid">Register</button>
                     <!-- spinner -->
                     <div fxLayoutAlign="center" *ngIf="clicked" class="m-t-30">
                         <mat-spinner diameter="50"></mat-spinner>

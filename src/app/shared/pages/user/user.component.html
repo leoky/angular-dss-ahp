@@ -16,7 +16,7 @@
             <button mat-raised-button color="primary"
                 *ngIf="userForm.dirty && userForm.enabled"
                 [disabled]="userForm.invalid"
-                (click)="userForm.enable()">Save</button>
+                (click)="update()">Save</button>
         </span>
     </mat-toolbar>
 

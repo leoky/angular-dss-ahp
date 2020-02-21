@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, Validators } from '@angular/forms';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-user',
@@ -18,13 +19,29 @@ export class UserComponent implements OnInit {
     birth: [''],
   });
   constructor(private location: Location,
+              private userService: UserService,
               private fb: FormBuilder) { }
 
   ngOnInit() {
+    this.getData();
+  }
+
+  getData() {
+    this.userService.getUser().subscribe(data => {
+      this.userForm.patchValue(data);
+    });
     this.userForm.disable();
   }
+
+  update() {
+    if (this.userForm.valid) {
+      this.userService.update(this.userForm.value).subscribe(result => {
+        this.userForm.disable();
+      });
+    }
+  }
   cancel() {
-    this.userForm.disable();
+    this.getData();
   }
   goBack() {
     this.location.back();

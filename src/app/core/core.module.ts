@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 // material
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
@@ -14,6 +15,7 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatSelectModule} from '@angular/material/select';
 import {MatNativeDateModule} from '@angular/material';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material/snack-bar';
 // library
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -26,6 +28,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
+    HttpClientModule,
     // material
     MatToolbarModule,
     MatButtonModule,
@@ -39,8 +42,12 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatSelectModule,
     MatNativeDateModule,
     MatDatepickerModule,
+    MatSnackBarModule,
     // library
     FlexLayoutModule,
+  ],
+  providers: [
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 5000}},
   ]
 })
 export class CoreModule { }

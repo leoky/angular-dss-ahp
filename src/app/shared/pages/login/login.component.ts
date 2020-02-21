@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { UserService } from '../../services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -20,9 +22,23 @@ export class LoginComponent implements OnInit {
     password: ['', Validators.required],
   });
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+              public router: Router,
+              private userService: UserService) { }
 
   ngOnInit() {
   }
 
+  logIn() {
+    if (this.loginForm.valid) {
+      this.userService.logIn(this.loginForm.value).subscribe(result => {
+        if (this.userService.user$) {
+          this.router.navigate(['/']);
+        }
+      }, () => {
+        // if error
+        this.clicked = false;
+      });
+    }
+  }
 }
