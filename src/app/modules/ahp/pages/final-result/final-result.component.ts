@@ -3,6 +3,7 @@ import { Chart } from 'chart.js';
 // service
 import { CriteriaService } from '../../services/criteria.service';
 import { AlternativeService } from '../../services/alternative.service';
+import { DecisionService } from '../../services/decision.service';
 
 @Component({
   selector: 'app-final-result',
@@ -18,17 +19,18 @@ export class FinalResultComponent implements OnInit {
   dataSource: any[];
 
   constructor(private criteriaService: CriteriaService,
+              private decisionService: DecisionService,
               public alternativeService: AlternativeService) { }
 
   ngOnInit() {
-    if (this.criteriaService.criterias && this.alternativeService.altCrits) {
+    if (this.criteriaService.criterias$.value && this.alternativeService.altCrits) {
 
       this.calculate();
 
       this.createChart();
 
       // add data to table
-      this.dataSource = this.alternativeService.alternatives.map((alternative) => {
+      this.dataSource = this.alternativeService.alternatives$.value.map((alternative) => {
         return {
           rank: alternative.rank,
           name: alternative.name,
@@ -37,14 +39,19 @@ export class FinalResultComponent implements OnInit {
       }).sort((a, b) => {
         return a.rank - b.rank;
       });
+      console.log('alternataive result', this.alternativeService.alternatives$.value);
     }
+  }
+
+  save() {
+    this.decisionService.save().subscribe();
   }
 
   calculate() {
     // create: alternative[] = [ criteria [] ]
     // tslint:disable-next-line: prefer-const
-    let alternative = Array.from(Array(this.alternativeService.alternatives.length),
-    () => new Array(this.criteriaService.criterias.length));
+    let alternative = Array.from(Array(this.alternativeService.alternatives$.value.length),
+    () => new Array(this.criteriaService.criterias$.value.length));
 
     this.alternativeService.altCrits.map((x, cIndex) => {
       x.alternatives.map((alt, aIndex) => {
@@ -54,12 +61,12 @@ export class FinalResultComponent implements OnInit {
       });
     });
     // multiply alternative with criteria
-    for (let i = 0; i < this.alternativeService.alternatives.length; i++ ) {
+    for (let i = 0; i < this.alternativeService.alternatives$.value.length; i++ ) {
       let sum = 0;
-      for (let j = 0; j < this.criteriaService.criterias.length; j++) {
-        sum += (alternative[i][j] * this.criteriaService.criterias[j].priorityVector);
+      for (let j = 0; j < this.criteriaService.criterias$.value.length; j++) {
+        sum += (alternative[i][j] * this.criteriaService.criterias$.value[j].priorityVector);
       }
-      this.alternativeService.alternatives[i].priorityVector = sum;
+      this.alternativeService.alternatives$.value[i].priorityVector = sum;
     }
     // rank
     this.alternativeService.rankFinal();
@@ -68,13 +75,13 @@ export class FinalResultComponent implements OnInit {
     this.chart = new Chart('canvas', {
       type: 'bar',
       data: {
-        labels: this.alternativeService.alternatives.map((x) => {
+        labels: this.alternativeService.alternatives$.value.map((x) => {
           return x.name;
         }),
         datasets: [
           {
             label: 'Priority Vector (%)',
-            data: this.alternativeService.alternatives.map((x) => {
+            data: this.alternativeService.alternatives$.value.map((x) => {
               return x.priorityVector * 100;
             })
           }

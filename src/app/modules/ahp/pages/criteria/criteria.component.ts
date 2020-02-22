@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { Observable } from 'rxjs/internal/Observable';
 // model
 import { Criteria } from '../../models/criteria';
 // service
@@ -17,23 +18,27 @@ export class CriteriaComponent implements OnInit {
   listForm = this.fb.array([this.createList(), this.createList(), this.createList()]);
 
   criterias: Criteria[];
+  criterias$: Observable<Criteria[]> = this.criteriaService.criterias$;
 
   constructor(private fb: FormBuilder,
               private criteriaService: CriteriaService) { }
 
   ngOnInit() {
     // if already set value
-    if (this.criteriaService.criterias) {
-      this.criterias = this.criteriaService.criterias.sort((a, b) => {
-        return a.order - b.order;
+    if (this.criteriaService.criterias$.value) {
+      this.criterias$.subscribe(data => {
+        // this.criterias = this.criteriaService.criterias$.value.sort((a, b) => {
+        this.criterias = data.sort((a, b) => {
+          return a.order - b.order;
+        });
+        // generate list form
+        this.listForm.clear();
+        data.forEach(x => {
+          this.addList();
+        });
+        this.listForm.patchValue(data);
+        this.listForm.disable();
       });
-      // generate list form
-      this.listForm.clear();
-      this.criteriaService.criterias.forEach(x => {
-        this.addList();
-      });
-      this.listForm.patchValue(this.criteriaService.criterias);
-      this.listForm.disable();
     }
   }
   // create list
@@ -60,13 +65,12 @@ export class CriteriaComponent implements OnInit {
   // save list
   saveList() {
     let order = 0;
-    this.criteriaService.criterias = this.listForm.value.map((x: Criteria) => {
+    this.criteriaService.criterias$.next(this.listForm.value.map((x: Criteria) => {
       x.order = order++;
       return x;
-    });
+    }));
     this.listForm.disable();
-    this.criteriaService.saveCriteria(this.criteriaService.criterias);
-    this.criterias = this.criteriaService.criterias;
+    this.criterias = this.criteriaService.criterias$.value;
   }
 }
 

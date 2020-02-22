@@ -6,17 +6,9 @@ import { Criteria } from '../models/criteria';
 @Injectable()
 export class CriteriaService {
 
-  criterias: Criteria[];
   criterias$: BehaviorSubject<Criteria[]> = new BehaviorSubject<Criteria[]>(null);
 
   constructor() { }
-
-  saveCriteria(data: Criteria[]): void {
-    if (data) {
-      this.criterias = data;
-      this.criterias$.next(data);
-    }
-  }
 
   pairwise(list: Criteria[]): any[] {
     if (list) {
@@ -35,30 +27,30 @@ export class CriteriaService {
   }
 
   calculate(): void {
-    if (this.criterias) {
-      const total = this.criterias.map((c, index) => {
+    if (this.criterias$.value) {
+      const total = this.criterias$.value.map((c, index) => {
         // tslint:disable-next-line: prefer-const
         let sum = 0;
-        this.criterias.map((x) => {
+        this.criterias$.value.map((x) => {
           sum += x.value[index];
         });
         return sum;
       });
-      this.criterias.map((c, cIndex) => {
+      this.criterias$.value.map((c, cIndex) => {
         let sum = 0;
         c.value.map((value, index) => {
           sum += (value / total[index]);
         });
-        this.criterias[cIndex].priorityVector = sum / this.criterias.length;
+        this.criterias$.value[cIndex].priorityVector = sum / this.criterias$.value.length;
       });
       this.rank();
     }
   }
   rank(): void {
-    if (this.criterias) {
+    if (this.criterias$.value) {
       // tslint:disable-next-line: prefer-const
       let rank = 1;
-      this.criterias.map(x => {
+      this.criterias$.value.map(x => {
         return x;
       }).sort((a, b) => {
         return b.priorityVector - a.priorityVector;

@@ -45,7 +45,8 @@ export class AhpComponent implements OnInit {
 
   user$: Observable<User>;
 
-  decisionName = new FormControl('Untitled AHP');
+  // decision name control
+  dNameControl = new FormControl('Untitled AHP');
 
   constructor(private breakpointObserver: BreakpointObserver,
               private route: ActivatedRoute,
@@ -70,13 +71,25 @@ export class AhpComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       if (params.get('id') === 'create') {
-
+        this.decisionService.createNew();
       } else {
-
+        if (params.get('id')) {
+          this.decisionService.getDecision(params.get('id')).subscribe();
+        }
       }
     });
     this.getUser();
+    this.updateDecision();
   }
+
+  // form control
+  updateDecision() {
+    this.decisionService.decision.name = this.dNameControl.value;
+    this.dNameControl.valueChanges.subscribe(value => {
+      this.decisionService.decision.name = value;
+    });
+  }
+
   // for user
   getUser() {
     this.userService.getUser().subscribe(result => {

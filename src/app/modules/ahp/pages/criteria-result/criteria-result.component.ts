@@ -17,13 +17,13 @@ export class CriteriaResultComponent implements OnInit {
   constructor(private criteriaService: CriteriaService) { }
 
   ngOnInit() {
-    if (this.criteriaService.criterias) {
+    if (this.criteriaService.criterias$.value) {
       // calculate first
       this.criteriaService.calculate();
       // insert data to chart.js
       this.createChart();
       // add data to table
-      this.dataSource = this.criteriaService.criterias.map((criteria, index) => {
+      this.dataSource = this.criteriaService.criterias$.value.map((criteria, index) => {
         return {
           rank: criteria.rank,
           name: criteria.name,
@@ -39,13 +39,13 @@ export class CriteriaResultComponent implements OnInit {
     this.chart = new Chart('canvas', {
       type: 'bar',
       data: {
-        labels: this.criteriaService.criterias.map((x) => {
+        labels: this.criteriaService.criterias$.value.map((x) => {
           return x.name;
         }),
         datasets: [
           {
             label: 'Priority Vector (%)',
-            data: this.criteriaService.criterias.map((x) => {
+            data: this.criteriaService.criterias$.value.map((x) => {
               return x.priorityVector * 100;
             })
           }

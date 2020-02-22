@@ -3,21 +3,16 @@
     <mat-sidenav #drawer
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'">
-        <!-- logo -->
-        <!-- <mat-toolbar class="sticky mat-elevation-z2"> -->
-            <!-- <span >
-                <a class="link-logo" routerLink="/">DSS</a>
-            </span> -->
-            <!-- </mat-toolbar> -->
-            <!-- sidebar list -->
+    <div fxLayout="column" class="h-100p">
         <div class="title">
             <form>
                 <mat-form-field>
-                    <input matInput required placeholder="Title" [formControl]="decisionName">
+                    <input matInput required placeholder="Title" [formControl]="dNameControl">
                 </mat-form-field>
             </form>
         </div>
         <mat-divider></mat-divider>
+        <!-- nav list -->
         <mat-nav-list>
             <div *ngFor="let item of sidebars; let i = index">
                 <a mat-list-item routerLink="{{item.link}}"routerLinkActive="mat-app-background"title="{{item.title}}">
@@ -44,6 +39,13 @@
                 <span>&nbsp;Result</span>
             </a>
         </mat-nav-list>
+        <!-- logo -->
+        <div class=""fxFlex fxLayout="column" fxLayoutAlign="end center">
+            <a routerLink="/" class="link-logo">
+                <h3>DSS-AHP</h3>
+            </a>
+        </div>
+    </div>
     </mat-sidenav>
     <!-- right side -->
     <mat-sidenav-content>

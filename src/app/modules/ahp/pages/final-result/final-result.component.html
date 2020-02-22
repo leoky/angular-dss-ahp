@@ -3,9 +3,14 @@
         <span class="m-r-a" fxLayoutAlign="center center">
         <span>Final Result</span>
         </span>
-        <span fxLayoutAlign="end center" *ngIf="alternativeService.alternatives">
+        <!-- <span fxLayoutAlign="end center" *ngIf="alternativeService.alternatives$.value">
             <button mat-raised-button
-            [disabled]="!alternativeService.alternatives[0].priorityVector"
+            [disabled]="!alternativeService.alternatives$.value[0].priorityVector"
+            color="primary">Save</button>
+        </span> -->
+        <span fxLayoutAlign="end center" *ngIf="alternativeService.alternatives$.value">
+            <button mat-raised-button
+            (click)="save()"
             color="primary">Save</button>
         </span>
     </mat-toolbar-row>

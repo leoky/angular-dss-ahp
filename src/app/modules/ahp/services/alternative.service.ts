@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 // model
 import { Alternative } from '../models/alternative';
 import { Criteria } from '../models/criteria';
@@ -10,7 +11,7 @@ export class AltCrit {
 @Injectable()
 export class AlternativeService {
 
-  alternatives: Criteria[];
+  alternatives$: BehaviorSubject<Criteria[]> = new BehaviorSubject<Criteria[]>(null);
   altCrits: Alternative[];
 
   constructor(private criteriaService: CriteriaService) { }
@@ -32,27 +33,21 @@ export class AlternativeService {
     }
   }
   createAltCrit(): void {
-    this.criteriaService.criterias$.subscribe(result => {
-      this.altCrits = [];
-      result.map(x => {
-        if (this.alternatives) {
-          this.altCrits.push({
-            order: x.order,
-            criteriaName: x.name,
-            alternatives: this.alternatives.map(alt => ({...alt}))
-          });
-        }
+    if (this.criteriaService.criterias$.value && this.alternatives$.value) {
+      this.criteriaService.criterias$.subscribe(result => {
+        this.altCrits = [];
+        result.map(x => {
+          if (this.alternatives$.value) {
+            this.altCrits.push({
+              order: x.order,
+              criteriaName: x.name,
+              alternatives: this.alternatives$.value.map(alt => ({...alt}))
+            });
+          }
+        });
       });
-    });
-    // this.altCrits = [];
-    // this.criteriaService.criterias.map(criteria => {
-    //   this.altCrits.push({
-    //     _id: criteria.order + '',
-    //     criteriaName: criteria.name,
-    //     alternatives: this.alternatives
-    //   });
-    // });
-    console.log(this.altCrits);
+    }
+    console.log('altcrit', this.altCrits);
   }
 
   calculate(id: number): void {
@@ -91,9 +86,9 @@ export class AlternativeService {
     }
   }
   rankFinal(): void {
-    if (this.alternatives) {
+    if (this.alternatives$.value) {
       let rank = 1;
-      this.alternatives.map(x => {
+      this.alternatives$.value.map(x => {
         return x;
       }).sort((a, b) => {
         return b.priorityVector - a.priorityVector;

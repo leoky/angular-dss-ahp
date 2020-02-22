@@ -19,7 +19,7 @@ export class MyListComponent implements OnInit {
   }
 
   getData() {
-    this.decisionService.getDecision().subscribe(result => {
+    this.decisionService.getDecisions().subscribe(result => {
       this.decisions = result;
     });
   }

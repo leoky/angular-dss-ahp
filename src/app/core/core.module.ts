@@ -5,7 +5,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 // interceptor
 import { ApiInterceptor } from './interceptor/api.interceptor';
 
-import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [],
@@ -18,9 +18,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     HttpClientModule,
   ],
   providers: [
-    [
-      { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true }
-    ],
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 5000}},
+    {provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true}
   ]
 })
 export class CoreModule {

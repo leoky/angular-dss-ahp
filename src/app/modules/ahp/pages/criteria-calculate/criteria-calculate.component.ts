@@ -21,9 +21,9 @@ export class CriteriaCalculateComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
-    if (this.criteriaService.criterias) {
+    if (this.criteriaService.criterias$.value) {
       // pair first
-      this.pairwise = this.criteriaService.pairwise(this.criteriaService.criterias);
+      this.pairwise = this.criteriaService.pairwise(this.criteriaService.criterias$.value);
       // loop pair to form
       this.pairwise.map((x) => {
         this.pairForm.push(this.listGroup([x[0].name, x[1].name], x[0].name));
@@ -39,28 +39,28 @@ export class CriteriaCalculateComponent implements OnInit {
     });
   }
   calculate() {
-    console.log(this.pairForm.value);
-    this.criteriaService.criterias.map((criteria: Criteria, index: number) => {
+    console.log('Criteria pair form', this.pairForm.value);
+    this.criteriaService.criterias$.value.map((criteria: Criteria, index: number) => {
       // reset value first
-      this.criteriaService.criterias[index].value = [];
+      this.criteriaService.criterias$.value[index].value = [];
 
       this.pairForm.value.map((x: any, mapIndex: number) => {
-        if (index === mapIndex && index < this.criteriaService.criterias.length - 1) {
-          this.criteriaService.criterias[index].value.push(1);
+        if (index === mapIndex && index < this.criteriaService.criterias$.value.length - 1) {
+          this.criteriaService.criterias$.value[index].value.push(1);
         }
         if (x.pair.includes(criteria.name)) {
           if (criteria.name === x.choose) {
-            this.criteriaService.criterias[index].value.push(x.value);
+            this.criteriaService.criterias$.value[index].value.push(x.value);
           } else {
-            this.criteriaService.criterias[index].value.push(1 / x.value);
+            this.criteriaService.criterias$.value[index].value.push(1 / x.value);
           }
         }
-        if (index === mapIndex && index >= this.criteriaService.criterias.length - 1) {
-          this.criteriaService.criterias[index].value.push(1);
+        if (index === mapIndex && index >= this.criteriaService.criterias$.value.length - 1) {
+          this.criteriaService.criterias$.value[index].value.push(1);
         }
       });
     });
-    console.log(this.criteriaService.criterias);
+    console.log('Criteria pair result', this.criteriaService.criterias$.value);
     this.router.navigate(['/ahp/create/criteria', 'result']);
   }
 }

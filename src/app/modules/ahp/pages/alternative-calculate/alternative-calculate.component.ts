@@ -48,8 +48,8 @@ export class AlternativeCalculateComponent implements OnInit {
   }
   initial() {
     // initial data and form
-    if (this.criteriaService.criterias) {
-      this.criteria = this.criteriaService.criterias[this.paramId];
+    if (this.criteriaService.criterias$.value) {
+      this.criteria = this.criteriaService.criterias$.value[this.paramId];
       this.createForm();
     }
   }
@@ -63,9 +63,9 @@ export class AlternativeCalculateComponent implements OnInit {
     }
   }
   createForm(): void {
-    if (this.altService.alternatives) {
+    if (this.altService.alternatives$.value) {
       // pair first
-      this.pairwise = this.altService.pairwise(this.altService.alternatives);
+      this.pairwise = this.altService.pairwise(this.altService.alternatives$.value);
       // loop pair to form
       this.pairwise.map((x) => {
         this.pairForm.push(this.listGroup([x[0].name, x[1].name], x[0].name));
@@ -101,7 +101,7 @@ export class AlternativeCalculateComponent implements OnInit {
         }
       });
     });
-    console.log(this.altService.altCrits);
+    console.log('altCrit result', this.altService.altCrits);
     this.router.navigate(['/ahp/create/alternative/result', this.paramId]);
   }
   goBack() {
