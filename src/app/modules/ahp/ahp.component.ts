@@ -3,14 +3,14 @@ import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
-// service
-import { CriteriaService } from './services/criteria.service';
-import { UserService } from 'src/app/shared/services/user.service';
-import { Criteria } from './models/criteria';
-import { User } from 'src/app/shared/models/user';
-import { DecisionService } from './services/decision.service';
 import { FormControl } from '@angular/forms';
 import { MatSidenav } from '@angular/material';
+// service
+import { CriteriaService } from './services/criteria.service';
+import { UserService } from 'src/app/core/services/user.service';
+import { DecisionService } from './services/decision.service';
+import { User } from 'src/app/core/models/user';
+import { Criteria } from './models/criteria';
 
 @Component({
   selector: 'app-ahp',

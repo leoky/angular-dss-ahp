@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UserService } from 'src/app/shared/services/user.service';
-import { User } from 'src/app/shared/models/user';
+import { UserService } from 'src/app/core/services/user.service';
+import { User } from 'src/app/core/models/user';
 
 @Component({
   selector: 'app-home',
