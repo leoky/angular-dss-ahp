@@ -1,7 +1,7 @@
 import { Criteria } from './criteria';
 
 export interface Alternative {
-    _id?: string;
+    id?: string;
     decisionId?: string;
     criteriaId?: string;
     order?: number;

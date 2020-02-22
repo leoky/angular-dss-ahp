@@ -24,7 +24,12 @@
                         <input matInput placeholder="Confirm Password" type="password" formControlName="repassword">
                     </mat-form-field>
                     <!-- button -->
-                    <button mat-raised-button color="primary" class="w-100p m-t-10p" (click)="register(); clicked = true" [disabled]="regisForm.invalid">Register</button>
+                    <button mat-raised-button
+                    color="primary"
+                    class="w-100p m-t-10p"
+                    *ngIf="!clicked"
+                    (click)="register(); clicked = true"
+                    [disabled]="regisForm.invalid">Register</button>
                     <!-- spinner -->
                     <div fxLayoutAlign="center" *ngIf="clicked" class="m-t-30">
                         <mat-spinner diameter="50"></mat-spinner>

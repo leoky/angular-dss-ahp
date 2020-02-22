@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DecisionService } from '../../services/decision.service';
+import { Decision } from '../../models/decision';
 
 @Component({
   selector: 'app-my-list',
@@ -8,10 +10,18 @@ import { Component, OnInit } from '@angular/core';
 export class MyListComponent implements OnInit {
 
   myList = ['sdssd', '2d1e12d', 'sdj1k2jdl'];
+  decisions: Decision[];
 
-  constructor() { }
+  constructor(private decisionService: DecisionService) { }
 
   ngOnInit() {
+    this.getData();
+  }
+
+  getData() {
+    this.decisionService.getDecision().subscribe(result => {
+      this.decisions = result;
+    });
   }
 
   delete(id: string) {

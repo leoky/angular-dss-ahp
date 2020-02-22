@@ -16,7 +16,12 @@
                         </button>
                     </mat-form-field>
                     <!-- button -->
-                    <button mat-raised-button color="primary" class="w-100p m-t-10p" (click)="logIn(); clicked = true" [disabled]="loginForm.invalid">Log in</button>
+                    <button mat-raised-button
+                    color="primary"
+                    class="w-100p m-t-10p"
+                    (click)="logIn(); clicked = true"
+                    *ngIf="!clicked"
+                    [disabled]="loginForm.invalid">Log in</button>
                     <!-- spinner -->
                     <div fxLayoutAlign="center" *ngIf="clicked" class="m-t-30">
                         <mat-spinner diameter="50"></mat-spinner>

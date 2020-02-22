@@ -1,5 +1,5 @@
 export interface Criteria {
-    _id?: string;
+    id?: string;
     decisionId?: string;
     name?: string;
     desc?: string;

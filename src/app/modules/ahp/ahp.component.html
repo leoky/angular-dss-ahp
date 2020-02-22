@@ -60,21 +60,18 @@
                 <button mat-button routerLink="/register" *ngIf="!(user$ | async)">Sign up</button>
                 <button mat-raised-button routerLink="/login" *ngIf="!(user$ | async)">Log in</button>
                 <!-- if login -->
-                <button mat-raised-button routerLink="../0/my-list" routerLinkActive="d-none">My List</button>
-                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu" *ngIf="!(user$ | async)">
+                <button mat-raised-button routerLink="../0/my-list" routerLinkActive="d-none"*ngIf="(user$ | async)">My List</button>
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu" *ngIf="(user$ | async)">
                     <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu">
                     <button mat-menu-item routerLinkActive="d-none" routerLink="/user" *ngIf="user$ | async as user">
                         <span>{{ user.email }}</span>
                     </button>
-                    <button mat-menu-item routerLinkActive="d-none" routerLink="/user" >
-                        <span>test@gmail.com</span>
-                    </button>
                     <button mat-menu-item routerLinkActive="d-none" routerLink="/login">
                         <span>Switch User</span>
                     </button>
-                    <button mat-menu-item routerLinkActive="d-none">
+                    <button mat-menu-item routerLinkActive="d-none" (click)="logOut()">
                         <mat-icon>exit_to_app</mat-icon>
                         <span>Log out</span>
                     </button>

@@ -1,22 +1,28 @@
 <mat-toolbar>
     <mat-toolbar-row>
-        <span>My List</span>
+        <span class="m-r-a">My List</span>
+        <span>
+          <button mat-raised-button routerLink="/ahp/create">
+            <mat-icon>add</mat-icon>
+            <span> Create new</span>
+          </button>
+        </span>
     </mat-toolbar-row>
 </mat-toolbar>
 
 <div>
      <mat-card fxFlex="100" fxFlex.gt-sm="60">
         <mat-list>
-            <mat-list-item  *ngFor="let item of myList; let index = index">
-                <h3 mat-line routerLink="/ahp/{{item}}" class="cursor-pointer">
-                    Decision pertama
+            <mat-list-item  *ngFor="let item of decisions; let index = index">
+                <h3 mat-line routerLink="/ahp/{{item.id}}" class="cursor-pointer">
+                    {{item.name | titlecase}}
                 </h3>
-              <p mat-line>Created at: 25 sept 2018</p>
+              <p mat-line>Created at: {{item.createdAt | date}}</p>
               <div fxLayoutAlign="center center">
-                <button mat-icon-button aria-label="Edit" title="Edit" routerLink="/ahp/{{item}}">
+                <button mat-icon-button aria-label="Edit" title="Edit" routerLink="/ahp/{{item.id}}">
                   <mat-icon>edit</mat-icon>
                 </button>
-                <button mat-icon-button aria-label="delete" title="delete" (click)="delete('0')">
+                <button mat-icon-button aria-label="delete" title="delete" (click)="delete(item.id)">
                   <mat-icon>delete</mat-icon>
                 </button>
               </div>

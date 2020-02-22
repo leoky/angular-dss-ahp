@@ -1,5 +1,5 @@
 export interface Decision {
-    _id?: string;
+    id?: string;
     name?: string;
     userId?: string;
     createdAt?: Date;

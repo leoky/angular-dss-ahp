@@ -75,8 +75,15 @@ export class AhpComponent implements OnInit {
 
       }
     });
-    if (this.userService.user$) {
+    this.getUser();
+  }
+  // for user
+  getUser() {
+    this.userService.getUser().subscribe(result => {
       this.user$ = this.userService.user$;
-    }
+    });
+  }
+  logOut() {
+    this.userService.logOut().subscribe();
   }
 }
