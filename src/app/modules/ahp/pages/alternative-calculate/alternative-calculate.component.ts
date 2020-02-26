@@ -63,15 +63,18 @@ export class AlternativeCalculateComponent implements OnInit {
     }
   }
   createForm(): void {
-    if (this.altService.alternatives$.value) {
-      // pair first
-      this.pairwise = this.altService.pairwise(this.altService.alternatives$.value);
-      // loop pair to form
-      this.pairwise.map((x) => {
-        this.pairForm.push(this.listGroup([x[0].name, x[1].name], x[0].name));
-      });
-    }
+    this.altService.alternatives$.subscribe(data => {
+      if (data) {
+        // pair first
+        this.pairwise = this.altService.pairwise(data);
+        // loop pair to form
+        this.pairwise.map((x) => {
+          this.pairForm.push(this.listGroup([x[0].name, x[1].name], x[0].name));
+        });
+      }
+    });
   }
+
   // form item stucture
   listGroup(pairs: any[], choose: string): FormGroup {
     return this.fb.group({
@@ -102,7 +105,8 @@ export class AlternativeCalculateComponent implements OnInit {
       });
     });
     console.log('altCrit result', this.altService.altCrits);
-    this.router.navigate(['/ahp/create/alternative/result', this.paramId]);
+    // delete calculate/0
+    this.router.navigate([this.router.url.substring(0, this.router.url.length - 11), 'result', this.paramId]);
   }
   goBack() {
     this.location.back();

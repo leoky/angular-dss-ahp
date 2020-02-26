@@ -11,7 +11,6 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 })
 export class UserService {
 
-  user: User;
   user$: BehaviorSubject<User> = new BehaviorSubject<User>(null);
 
   // api url

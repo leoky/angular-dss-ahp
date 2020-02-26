@@ -43,10 +43,10 @@ export class AhpComponent implements OnInit {
   // auto update value if updated
   criterias$: Observable<Criteria[]> = this.criteriaService.criterias$;
 
-  user$: Observable<User>;
+  user$: Observable<User> = this.userService.user$;
 
   // decision name control
-  dNameControl = new FormControl('Untitled AHP');
+  dNameControl = new FormControl();
 
   constructor(private breakpointObserver: BreakpointObserver,
               private route: ActivatedRoute,
@@ -69,33 +69,32 @@ export class AhpComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.userService.getUser().subscribe();
     this.route.paramMap.subscribe(params => {
       if (params.get('id') === 'create') {
         this.decisionService.createNew();
       } else {
-        if (params.get('id')) {
-          this.decisionService.getDecision(params.get('id')).subscribe();
-        }
+        // get data from server
+        this.decisionService.getDecision(params.get('id')).subscribe(() => {
+          this.updateDecision();
+        });
       }
+      this.updateDecision();
     });
-    this.getUser();
-    this.updateDecision();
   }
 
   // form control
   updateDecision() {
-    this.decisionService.decision.name = this.dNameControl.value;
+    // set default name
+    if (this.decisionService.decision.name) {
+      this.dNameControl.patchValue(this.decisionService.decision.name);
+    }
+    // update if name changed
     this.dNameControl.valueChanges.subscribe(value => {
       this.decisionService.decision.name = value;
     });
   }
 
-  // for user
-  getUser() {
-    this.userService.getUser().subscribe(result => {
-      this.user$ = this.userService.user$;
-    });
-  }
   logOut() {
     this.userService.logOut().subscribe();
   }

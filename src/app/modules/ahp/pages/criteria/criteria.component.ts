@@ -25,21 +25,20 @@ export class CriteriaComponent implements OnInit {
 
   ngOnInit() {
     // if already set value
-    if (this.criteriaService.criterias$.value) {
       this.criterias$.subscribe(data => {
-        // this.criterias = this.criteriaService.criterias$.value.sort((a, b) => {
+       if (data) {
         this.criterias = data.sort((a, b) => {
           return a.order - b.order;
         });
         // generate list form
         this.listForm.clear();
-        data.forEach(x => {
+        data.map(x => {
           this.addList();
         });
         this.listForm.patchValue(data);
         this.listForm.disable();
-      });
-    }
+       }
+    });
   }
   // create list
   createList(): FormGroup {

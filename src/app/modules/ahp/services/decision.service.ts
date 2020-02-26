@@ -12,8 +12,11 @@ import { AlternativeService } from './alternative.service';
 @Injectable()
 export class DecisionService {
 
-  decision: Decision = {};
+  defaultName = 'Untitled AHP';
   decisions: Decision[];
+  decision: Decision = {
+    name: this.defaultName
+  };
   // api url
   baseUrl = `${environment.api}`;
 
@@ -26,30 +29,24 @@ export class DecisionService {
   createNew() {
     this.criteriaService.criterias$.next(null);
     this.alternativeService.alternatives$.next(null);
+    this.decision.name = this.defaultName;
   }
 
-  save(): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/decision`, this.decision)
+  save(): Observable<Decision> {
+    this.decision.criteria = this.criteriaService.criterias$.value.map(x => {
+      const a: any = x;
+      a.value = a.value.toString();
+      return a;
+    });
+    this.decision.alternative = this.alternativeService.alternatives$.value.map(x => {
+      const a: any = x;
+      a.value = a.value.toString();
+      return a;
+    });
+    return this.http.post<Decision>(`${this.baseUrl}/decision`, this.decision)
     .pipe(
       tap(result => {
         this.snakeBar.open('Save to server success');
-
-        // criteria
-        this.saveToServer('criteria', result.id, {
-          data: this.criteriaService.criterias$.value.map(x => {
-            x.decisionId = result.id;
-            return x;
-          })
-        }).subscribe();
-
-        // alternative
-        this.saveToServer('alternative', result.id, {
-          data: this.alternativeService.alternatives$.value.map(x => {
-            x.decisionId = result.id;
-            return x;
-          })
-        }).subscribe();
-
       }),
       catchError(this.handleError.bind(this))
     );
@@ -70,14 +67,15 @@ export class DecisionService {
     .pipe(
       tap(result => {
         if (result) {
-          this.decision.name = result.name;
+          this.decision = result;
           this.criteriaService.criterias$.next(result.criteria.map(x => {
-            // convert to array of number from string
-            // "[1,2,3]" => [1,2,3]
-            x.value = x.value.toString().substring(1, x.value.length - 1).split(',').map(Number);
+            if (x.value) {
+              // convert to array of number from string
+              x.value = x.value.toString().split(',').map(Number);
+            }
             return x;
           }));
-          this.alternativeService.alternatives$.next(result.alternatives);
+          this.alternativeService.alternatives$.next(result.alternative);
         }
       }),
       catchError(this.handleError.bind(this))
@@ -90,6 +88,17 @@ export class DecisionService {
       tap(result => {
         if (result) {
           this.decisions = result;
+        }
+      }),
+      catchError(this.handleError.bind(this))
+    );
+  }
+  delete(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/decision/${id}`)
+    .pipe(
+      tap(result => {
+        if (result) {
+         this.snakeBar.open('1 deleted');
         }
       }),
       catchError(this.handleError.bind(this))

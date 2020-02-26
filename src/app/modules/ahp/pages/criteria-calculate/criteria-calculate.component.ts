@@ -21,15 +21,18 @@ export class CriteriaCalculateComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
-    if (this.criteriaService.criterias$.value) {
-      // pair first
-      this.pairwise = this.criteriaService.pairwise(this.criteriaService.criterias$.value);
-      // loop pair to form
-      this.pairwise.map((x) => {
+    this.criteriaService.criterias$.subscribe(data => {
+     if (data) {
+        // pair first
+        this.pairwise = this.criteriaService.pairwise(data);
+        // loop pair to form
+        this.pairwise.map((x) => {
         this.pairForm.push(this.listGroup([x[0].name, x[1].name], x[0].name));
-      });
-    }
+        });
+     }
+    });
   }
+
   // form item stucture
   listGroup(pairs: any[], choose: string): FormGroup {
     return this.fb.group({
@@ -61,6 +64,6 @@ export class CriteriaCalculateComponent implements OnInit {
       });
     });
     console.log('Criteria pair result', this.criteriaService.criterias$.value);
-    this.router.navigate(['/ahp/create/criteria', 'result']);
+    this.router.navigate([this.router.url.substring(0, this.router.url.length - 9), 'result']);
   }
 }

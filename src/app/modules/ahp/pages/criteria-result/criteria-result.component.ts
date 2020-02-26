@@ -17,22 +17,24 @@ export class CriteriaResultComponent implements OnInit {
   constructor(private criteriaService: CriteriaService) { }
 
   ngOnInit() {
-    if (this.criteriaService.criterias$.value) {
-      // calculate first
-      this.criteriaService.calculate();
-      // insert data to chart.js
-      this.createChart();
-      // add data to table
-      this.dataSource = this.criteriaService.criterias$.value.map((criteria, index) => {
-        return {
-          rank: criteria.rank,
-          name: criteria.name,
-          percentage: criteria.priorityVector * 100
-        };
-      }).sort((a, b) => {
-        return a.rank - b.rank;
-      });
-    }
+    this.criteriaService.criterias$.subscribe(data => {
+      if (data) {
+        // calculate first
+        this.criteriaService.calculate();
+        // insert data to chart.js
+        this.createChart();
+        // add data to table
+        this.dataSource = this.criteriaService.criterias$.value.map((criteria, index) => {
+          return {
+            rank: criteria.rank,
+            name: criteria.name,
+            percentage: criteria.priorityVector * 100
+          };
+        }).sort((a, b) => {
+          return a.rank - b.rank;
+        });
+      }
+    });
   }
 
   createChart() {

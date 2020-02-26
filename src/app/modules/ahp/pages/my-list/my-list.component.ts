@@ -25,6 +25,8 @@ export class MyListComponent implements OnInit {
   }
 
   delete(id: string) {
-
+    this.decisionService.delete(id).subscribe(result => {
+      this.getData();
+    });
   }
 }

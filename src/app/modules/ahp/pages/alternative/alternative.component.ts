@@ -21,16 +21,20 @@ export class AlternativeComponent implements OnInit {
 
   ngOnInit() {
     // if already set value
-    if (this.alternativeService.alternatives$.value) {
-      this.alternatives = this.alternativeService.alternatives$.value;
-      // generate form
-      this.listForm.clear();
-      this.alternatives.forEach(x => {
-        this.addList();
-      });
-      this.listForm.patchValue(this.alternativeService.alternatives$.value);
-      this.listForm.disable();
-    }
+    this.alternativeService.alternatives$.subscribe(data => {
+      if (data) {
+        this.alternatives =  data.sort((a, b) => {
+          return a.order - b.order;
+        });
+        // generate form
+        this.listForm.clear();
+        this.alternatives.map(x => {
+          this.addList();
+        });
+        this.listForm.patchValue(this.alternativeService.alternatives$.value);
+        this.listForm.disable();
+      }
+    });
   }
   // create list
   createList(): FormGroup {

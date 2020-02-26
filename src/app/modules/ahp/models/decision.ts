@@ -8,6 +8,6 @@ export interface Decision {
     createdAt?: Date;
     updatedAt?: Date;
     criteria?: Criteria[];
-    alternatives?: Criteria[];
+    alternative?: Criteria[];
     // pairComparison?: Alternative;
 }
