@@ -11,7 +11,12 @@
         <span fxLayoutAlign="end center" *ngIf="alternativeService.alternatives$.value">
             <button mat-raised-button
             (click)="save()"
+            *ngIf="saveButton"
             color="primary">Save</button>
+            <button mat-raised-button
+            (click)="update()"
+            *ngIf="!saveButton"
+            color="primary">Update</button>
         </span>
     </mat-toolbar-row>
 </mat-toolbar>

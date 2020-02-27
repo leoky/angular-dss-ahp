@@ -29,6 +29,7 @@ export class DecisionService {
   createNew() {
     this.criteriaService.criterias$.next(null);
     this.alternativeService.alternatives$.next(null);
+    this.decision = {};
     this.decision.name = this.defaultName;
   }
 
@@ -43,16 +44,13 @@ export class DecisionService {
       });
       return a;
     });
-    this.decision.alternatives = this.alternativeService.alternatives$.value.map(x => {
-      const a: any = x;
-      a.value = a.value.toString();
-      return a;
-    });
+    this.decision.alternatives = this.alternativeService.alternatives$.value;
     console.log('save', this.decision);
     return this.http.post<Decision>(`${this.baseUrl}/decision`, this.decision)
     .pipe(
       tap(result => {
-        this.snakeBar.open('Save to server success');
+        this.convertToArray(result);
+        this.snakeBar.open('Saved');
       }),
       catchError(this.handleError.bind(this))
     );
@@ -63,20 +61,7 @@ export class DecisionService {
     .pipe(
       tap(result => {
         if (result) {
-          this.decision = result;
-          this.criteriaService.criterias$.next(result.criterias.map(x => {
-            if (x.value) {
-              // convert to array of number from string
-              x.value = x.value.toString().split(',').map(Number);
-              x.alternatives = x.alternatives.map(y => {
-                y.value = y.value.toString().split(',').map(Number);
-                return y;
-              }).sort((a, b) => a.order - b.order);
-            }
-            return x;
-          }));
-          this.alternativeService.alternatives$.next(result.alternatives);
-          console.log('decision', this.decision);
+          this.convertToArray(result);
         }
       }),
       catchError(this.handleError.bind(this))
@@ -92,9 +77,48 @@ export class DecisionService {
         }
       }),
       catchError(this.handleError.bind(this))
-    );
-  }
-  delete(id: string): Observable<any> {
+      );
+    }
+
+    update(): Observable<any> {
+      this.decision.criterias = this.criteriaService.criterias$.value.map(x => {
+        const a: any = x;
+        a.value = a.value.toString();
+        a.alternatives = a.alternatives.map(b => {
+          const c: any = b;
+          c.value = c.value.toString();
+          return c;
+        });
+        return a;
+      });
+      this.decision.alternatives = this.alternativeService.alternatives$.value;
+      return this.http.put<Decision>(`${this.baseUrl}/decision/${this.decision.id}`, this.decision)
+      .pipe(
+        tap(result => {
+          this.convertToArray(this.decision);
+          this.snakeBar.open('Updated');
+        }),
+        catchError(this.handleError.bind(this))
+      );
+    }
+
+    convertToArray(data: Decision) {
+      this.decision = data;
+      this.criteriaService.criterias$.next(data.criterias.map(x => {
+        if (x.value) {
+          // convert to array of number from string
+          x.value = x.value.toString().split(',').map(Number);
+          x.alternatives = x.alternatives.map(y => {
+            y.value = y.value.toString().split(',').map(Number);
+            return y;
+          }).sort((a, b) => a.order - b.order);
+        }
+        return x;
+      }));
+      this.alternativeService.alternatives$.next(data.alternatives);
+      console.log('decision', this.decision);
+    }
+    delete(id: string): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/decision/${id}`)
     .pipe(
       tap(result => {

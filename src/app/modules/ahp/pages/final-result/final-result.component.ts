@@ -12,6 +12,9 @@ import { DecisionService } from '../../services/decision.service';
 })
 export class FinalResultComponent implements OnInit {
 
+  // button
+  saveButton = false;
+
   chart = {};
 
   // table
@@ -39,12 +42,25 @@ export class FinalResultComponent implements OnInit {
       }).sort((a, b) => {
         return a.rank - b.rank;
       });
+
+      // show hide save update button
+      if (this.decisionService.decision.id) {
+        this.saveButton = false;
+      } else {
+        this.saveButton = true;
+      }
       console.log('alternataive result', this.alternativeService.alternatives$.value);
     }
   }
 
   save() {
-    this.decisionService.save().subscribe();
+    this.decisionService.save().subscribe(() => {
+      this.saveButton = false;
+    });
+  }
+
+  update() {
+    this.decisionService.update().subscribe();
   }
 
   calculate() {
@@ -86,7 +102,13 @@ export class FinalResultComponent implements OnInit {
         ]
       },
       options: {
-        legend: {
+        scales: {
+          yAxes: [{
+            ticks : {
+              min: 0,
+              max: 100
+            }
+          }]
         }
       }
     });

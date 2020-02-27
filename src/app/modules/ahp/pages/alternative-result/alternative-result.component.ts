@@ -79,7 +79,13 @@ export class AlternativeResultComponent implements OnInit {
         ]
       },
       options: {
-        legend: {
+        scales: {
+          yAxes: [{
+            ticks : {
+              min: 0,
+              max: 100
+            }
+          }]
         }
       }
     });
