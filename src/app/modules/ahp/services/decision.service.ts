@@ -33,30 +33,26 @@ export class DecisionService {
   }
 
   save(): Observable<Decision> {
-    this.decision.criteria = this.criteriaService.criterias$.value.map(x => {
+    this.decision.criterias = this.criteriaService.criterias$.value.map(x => {
+      const a: any = x;
+      a.value = a.value.toString();
+      a.alternatives = a.alternatives.map(b => {
+        const c: any = b;
+        c.value = c.value.toString();
+        return c;
+      });
+      return a;
+    });
+    this.decision.alternatives = this.alternativeService.alternatives$.value.map(x => {
       const a: any = x;
       a.value = a.value.toString();
       return a;
     });
-    this.decision.alternative = this.alternativeService.alternatives$.value.map(x => {
-      const a: any = x;
-      a.value = a.value.toString();
-      return a;
-    });
+    console.log('save', this.decision);
     return this.http.post<Decision>(`${this.baseUrl}/decision`, this.decision)
     .pipe(
       tap(result => {
         this.snakeBar.open('Save to server success');
-      }),
-      catchError(this.handleError.bind(this))
-    );
-  }
-
-  saveToServer(url: string, param: string, data: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/${url}/${param}`, data)
-    .pipe(
-      tap(result => {
-        this.snakeBar.open('Save to server success: ' + url);
       }),
       catchError(this.handleError.bind(this))
     );
@@ -68,14 +64,19 @@ export class DecisionService {
       tap(result => {
         if (result) {
           this.decision = result;
-          this.criteriaService.criterias$.next(result.criteria.map(x => {
+          this.criteriaService.criterias$.next(result.criterias.map(x => {
             if (x.value) {
               // convert to array of number from string
               x.value = x.value.toString().split(',').map(Number);
+              x.alternatives = x.alternatives.map(y => {
+                y.value = y.value.toString().split(',').map(Number);
+                return y;
+              }).sort((a, b) => a.order - b.order);
             }
             return x;
           }));
-          this.alternativeService.alternatives$.next(result.alternative);
+          this.alternativeService.alternatives$.next(result.alternatives);
+          console.log('decision', this.decision);
         }
       }),
       catchError(this.handleError.bind(this))

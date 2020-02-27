@@ -4,7 +4,7 @@
             <button mat-icon-button aria-label="Back"title="Back" (click)="goBack()">
                 <mat-icon>arrow_back</mat-icon>
             </button>
-            <span *ngIf="criteria">Criteria - {{criteria.name | titlecase}}</span>
+            <span *ngIf="criteriaName">Criteria - {{criteriaName | titlecase}}</span>
         </span>
         <span fxLayoutAlign="end center">
             <button mat-raised-button color="primary" (click)="calculate()" [disabled]="pairForm.invalid">Calculate</button>

@@ -9,19 +9,19 @@
                 <form [formGroup]="regisForm" class="m-t-10p">
                     <!-- name -->
                     <mat-form-field>
-                        <input matInput placeholder="Name" type="name" formControlName="name">
+                        <input matInput placeholder="Name" type="name" formControlName="name" maxlength="50">
                     </mat-form-field>
                     <!-- email -->
                     <mat-form-field>
-                        <input matInput placeholder="Email" type="email" email formControlName="email">
+                        <input matInput placeholder="Email" type="email" email formControlName="email" maxlength="50">
                     </mat-form-field>
                     <!-- password - form -->
                     <mat-form-field>
-                        <input matInput placeholder="Password" type="password" formControlName="password">
+                        <input matInput placeholder="Password" type="password" formControlName="password" maxlength="32">
                     </mat-form-field>
                     <!-- confirm password -->
                     <mat-form-field>
-                        <input matInput placeholder="Confirm Password" type="password" formControlName="repassword">
+                        <input matInput placeholder="Confirm Password" type="password" formControlName="repassword" maxlength="32">
                     </mat-form-field>
                     <!-- button -->
                     <button mat-raised-button

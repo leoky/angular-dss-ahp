@@ -45,21 +45,21 @@ export class CriteriaCalculateComponent implements OnInit {
     console.log('Criteria pair form', this.pairForm.value);
     this.criteriaService.criterias$.value.map((criteria: Criteria, index: number) => {
       // reset value first
-      this.criteriaService.criterias$.value[index].value = [];
+      criteria.value = [];
 
       this.pairForm.value.map((x: any, mapIndex: number) => {
         if (index === mapIndex && index < this.criteriaService.criterias$.value.length - 1) {
-          this.criteriaService.criterias$.value[index].value.push(1);
+          criteria.value.push(1);
         }
         if (x.pair.includes(criteria.name)) {
           if (criteria.name === x.choose) {
-            this.criteriaService.criterias$.value[index].value.push(x.value);
+            criteria.value.push(x.value);
           } else {
-            this.criteriaService.criterias$.value[index].value.push(1 / x.value);
+            criteria.value.push(1 / x.value);
           }
         }
         if (index === mapIndex && index >= this.criteriaService.criterias$.value.length - 1) {
-          this.criteriaService.criterias$.value[index].value.push(1);
+          criteria.value.push(1);
         }
       });
     });

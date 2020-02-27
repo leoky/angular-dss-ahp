@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Chart } from 'chart.js';
 // service
 import { AlternativeService } from '../../services/alternative.service';
+import { CriteriaService } from '../../services/criteria.service';
+import { Criteria } from '../../models/criteria';
 @Component({
   selector: 'app-alternative-result',
   templateUrl: './alternative-result.component.html',
@@ -19,27 +21,34 @@ export class AlternativeResultComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private location: Location,
-              public alternativeService: AlternativeService) { }
+              private criteriaService: CriteriaService,
+              private alternativeService: AlternativeService) { }
 
   paramId: number;
   criteriaName: string;
+  results: Criteria;
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      // + for change to be type number
-      this.paramId = +params.get('id');
-
       if (params.get('id')) {
+        // + for change to be type number
+        this.paramId = +params.get('id');
 
-        if (this.alternativeService.altCrits) {
-
-          this.criteriaName = this.alternativeService.altCrits[this.paramId].criteriaName;
+        this.initial();
+      }
+    });
+  }
+  initial() {
+    this.criteriaService.criterias$.subscribe(data => {
+      if (data) {
+        if (data[this.paramId].alternatives) {
+          this.criteriaName = data[this.paramId].name;
           // calculate first
-          this.alternativeService.calculate(this.paramId);
+          this.results = this.alternativeService.calculate(this.paramId);
           // insert data to chart.js
           this.createChart();
           // add data to table
-          this.dataSource = this.alternativeService.altCrits[this.paramId].alternatives.map((alternative) => {
+          this.dataSource = this.results.alternatives.map((alternative) => {
             return {
               rank: alternative.rank,
               name: alternative.name,
@@ -57,13 +66,13 @@ export class AlternativeResultComponent implements OnInit {
     this.chart = new Chart('canvas', {
       type: 'bar',
       data: {
-        labels: this.alternativeService.altCrits[this.paramId].alternatives.map((x) => {
+        labels: this.results.alternatives.map((x) => {
           return x.name;
         }),
         datasets: [
           {
             label: 'Priority Vector (%)',
-            data: this.alternativeService.altCrits[this.paramId].alternatives.map((x) => {
+            data: this.results.alternatives.map((x) => {
               return x.priorityVector * 100;
             })
           }

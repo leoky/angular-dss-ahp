@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 // model
-import { Alternative } from '../models/alternative';
 import { Criteria } from '../models/criteria';
 import { CriteriaService } from './criteria.service';
 
@@ -12,7 +11,6 @@ export class AltCrit {
 export class AlternativeService {
 
   alternatives$: BehaviorSubject<Criteria[]> = new BehaviorSubject<Criteria[]>(null);
-  altCrits: Alternative[];
 
   constructor(private criteriaService: CriteriaService) { }
 
@@ -34,48 +32,42 @@ export class AlternativeService {
   }
   createAltCrit(): void {
     if (this.criteriaService.criterias$.value && this.alternatives$.value) {
-      this.criteriaService.criterias$.subscribe(result => {
-        this.altCrits = [];
-        result.map(x => {
-          if (this.alternatives$.value) {
-            this.altCrits.push({
-              order: x.order,
-              criteriaName: x.name,
-              alternatives: this.alternatives$.value.map(alt => ({...alt}))
-            });
-          }
-        });
+      this.criteriaService.criterias$.value.forEach(result => {
+        if (this.alternatives$.value) {
+          result.alternatives = this.alternatives$.value.map(alt => ({...alt}));
+        }
       });
+      console.log('crti-alt', this.criteriaService.criterias$.value);
     }
-    console.log('altcrit', this.altCrits);
   }
 
-  calculate(id: number): void {
-    if (this.altCrits) {
-      const total = this.altCrits[id].alternatives.map((c, index) => {
+  calculate(id: number): Criteria {
+    if (this.criteriaService.criterias$.value[id].alternatives) {
+      const total = this.criteriaService.criterias$.value[id].alternatives.map((c, index) => {
         let sum = 0;
-        this.altCrits[id].alternatives.map((x) => {
+        this.criteriaService.criterias$.value[id].alternatives.map((x) => {
           sum += x.value[index];
         });
         return sum;
       });
-      this.altCrits[id].alternatives.map((c, cIndex) => {
+      this.criteriaService.criterias$.value[id].alternatives.map((c, cIndex) => {
         let sum = 0;
         c.value.map((value, index) => {
           sum += (value / total[index]);
         });
-        this.altCrits[id].alternatives[cIndex].priorityVector = sum / this.altCrits[id].alternatives.length;
+        this.criteriaService.criterias$.value[id].alternatives[cIndex].priorityVector
+        = sum / this.criteriaService.criterias$.value[id].alternatives.length;
       });
       this.rank(id);
+      return this.criteriaService.criterias$.value[id];
     }
   }
   rank(id: number): void {
-    if (this.altCrits) {
+    if (this.criteriaService.criterias$.value[id].alternatives) {
       // tslint:disable-next-line: prefer-const
       let rank = 1;
-      this.altCrits[id].alternatives.map(x => {
-        return x;
-      }).sort((a, b) => {
+      this.criteriaService.criterias$.value[id].alternatives.map(x => x)
+      .sort((a, b) => {
         return b.priorityVector - a.priorityVector;
       }).map(x => {
         x.rank = rank++;
@@ -88,9 +80,8 @@ export class AlternativeService {
   rankFinal(): void {
     if (this.alternatives$.value) {
       let rank = 1;
-      this.alternatives$.value.map(x => {
-        return x;
-      }).sort((a, b) => {
+      this.alternatives$.value.map(x => x)
+      .sort((a, b) => {
         return b.priorityVector - a.priorityVector;
       }).map(x => {
         x.rank = rank++;

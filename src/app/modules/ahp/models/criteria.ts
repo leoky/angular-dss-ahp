@@ -7,6 +7,7 @@ export interface Criteria {
     value?: number[];
     priorityVector?: number;
     rank?: number;
+    alternatives?: Criteria[];
     createdAt?: Date;
     updatedAt?: Date;
 }

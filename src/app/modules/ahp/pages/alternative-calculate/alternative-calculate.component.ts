@@ -15,7 +15,7 @@ import { AlternativeService } from '../../services/alternative.service';
 export class AlternativeCalculateComponent implements OnInit {
 
   // model
-  criteria: Criteria;
+  criteriaName: string;
   pairwise: any[];
 
   // form
@@ -34,34 +34,31 @@ export class AlternativeCalculateComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      // + to change data type number
-      this.paramId = +params.get('id');
-
       if (params.get('id')) {
-        // check if already calculate
-        this.checkResult();
+        // + to change data type number
+        this.paramId = +params.get('id');
 
         // initial data and form
         this.initial();
       }
     });
   }
+
   initial() {
     // initial data and form
-    if (this.criteriaService.criterias$.value) {
-      this.criteria = this.criteriaService.criterias$.value[this.paramId];
-      this.createForm();
-    }
+    this.criteriaService.criterias$.subscribe(data => {
+      if (data) {
+        this.criteriaName = data[this.paramId].name;
+        this.createForm();
+
+        // check if already calculate
+        if (data[this.paramId].alternatives[0].priorityVector) {
+          this.calculated = true;
+        }
+      }
+    });
   }
 
-  // check if already calculate
-  checkResult() {
-    if (this.altService.altCrits) {
-      if (this.altService.altCrits[this.paramId].alternatives[0].priorityVector) {
-        this.calculated = true;
-      }
-    }
-  }
   createForm(): void {
     this.altService.alternatives$.subscribe(data => {
       if (data) {
@@ -84,27 +81,28 @@ export class AlternativeCalculateComponent implements OnInit {
     });
   }
   calculate() {
-    this.altService.altCrits[this.paramId].alternatives.forEach((alternative: Criteria, index: number) => {
-      this.altService.altCrits[this.paramId].alternatives[index].value = [];
+    this.criteriaService.criterias$.value[this.paramId].alternatives.forEach((alternative: Criteria, index: number) => {
+      alternative.value = [];
       this.pairForm.value.forEach((x: any, mapIndex: number) => {
 
-        if (index === mapIndex && index < this.altService.altCrits[this.paramId].alternatives.length - 1) {
-          this.altService.altCrits[this.paramId].alternatives[index].value.push(1);
+        if (index === mapIndex && index < this.criteriaService.criterias$.value[this.paramId].alternatives.length - 1) {
+          alternative.value.push(1);
         }
 
         if (x.pair.includes(alternative.name)) {
           if (alternative.name === x.choose) {
-            this.altService.altCrits[this.paramId].alternatives[index].value.push(x.value);
+            alternative.value.push(x.value);
           } else {
-            this.altService.altCrits[this.paramId].alternatives[index].value.push(1 / x.value);
+            alternative.value.push(1 / x.value);
           }
         }
-        if (index === mapIndex && index >= this.altService.altCrits[this.paramId].alternatives.length - 1) {
-          this.altService.altCrits[this.paramId].alternatives[index].value.push(1);
+        if (index === mapIndex && index >= this.criteriaService.criterias$.value[this.paramId].alternatives.length - 1) {
+          alternative.value.push(1);
         }
       });
     });
-    console.log('altCrit result', this.altService.altCrits);
+    // console.log('altCrit result', this.altService.altCrits);
+    console.log('altCrit result ', this.paramId, ' ', this.criteriaService.criterias$.value[this.paramId].alternatives);
     // delete calculate/0
     this.router.navigate([this.router.url.substring(0, this.router.url.length - 11), 'result', this.paramId]);
   }

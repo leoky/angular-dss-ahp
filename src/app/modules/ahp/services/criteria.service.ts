@@ -50,9 +50,8 @@ export class CriteriaService {
     if (this.criterias$.value) {
       // tslint:disable-next-line: prefer-const
       let rank = 1;
-      this.criterias$.value.map(x => {
-        return x;
-      }).sort((a, b) => {
+      this.criterias$.value.map(x => x)
+      .sort((a, b) => {
         return b.priorityVector - a.priorityVector;
       }).map(x => {
         x.rank = rank++;
