@@ -54,6 +54,7 @@ export class AlternativeCalculateComponent implements OnInit {
         // check if already calculate
         if (data[this.paramId].alternatives[0].priorityVector) {
           this.calculated = true;
+          this.addDataToForm(data[this.paramId].alternatives);
         }
       }
     });
@@ -62,6 +63,7 @@ export class AlternativeCalculateComponent implements OnInit {
   createForm(): void {
     this.altService.alternatives$.subscribe(data => {
       if (data) {
+        this.pairForm.clear();
         // pair first
         this.pairwise = this.altService.pairwise(data);
         // loop pair to form
@@ -80,6 +82,39 @@ export class AlternativeCalculateComponent implements OnInit {
       value: ['', Validators.required],
     });
   }
+
+  addDataToForm(data: Criteria[]) {
+    const a = [];
+    data.map((criteria, cIndex) => {
+      criteria.value.map((val, vIndex) => {
+        if (criteria.order !== vIndex) {
+          if (val >= 1) {
+            a.push({
+              pair: [data[cIndex].name, data[vIndex].name],
+              choose: data[cIndex].name,
+              value: val
+            });
+          }
+        }
+      });
+    });
+    this.convertToArray(a);
+  }
+
+  convertToArray(data: any[]) {
+    const a = [];
+    this.pairwise.map(x => {
+      data.map(y => {
+        if ([x[0].name, x[1].name].includes(y.pair[0])) {
+          if ([x[0].name, x[1].name].includes(y.pair[1])) {
+            a.push(y);
+          }
+        }
+      });
+    });
+    this.pairForm.patchValue(a);
+  }
+
   calculate() {
     this.criteriaService.criterias$.value[this.paramId].alternatives.forEach((alternative: Criteria, index: number) => {
       alternative.value = [];

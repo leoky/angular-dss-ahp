@@ -114,7 +114,7 @@ export class DecisionService {
           }).sort((a, b) => a.order - b.order);
         }
         return x;
-      }));
+      }).sort((a, b) => a.order - b.order));
       this.alternativeService.alternatives$.next(data.alternatives);
       console.log('decision', this.decision);
     }

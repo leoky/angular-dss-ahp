@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 // service
 import { CriteriaService } from '../../services/criteria.service';
 import { Criteria } from '../../models/criteria';
-import { AlternativeService } from '../../services/alternative.service';
 
 @Component({
   selector: 'app-criteria-calculate',
@@ -26,28 +25,81 @@ export class CriteriaCalculateComponent implements OnInit {
         // pair first
         this.pairwise = this.criteriaService.pairwise(data);
         // loop pair to form
+        this.pairForm.clear();
         this.pairwise.map((x) => {
-        this.pairForm.push(this.listGroup([x[0].name, x[1].name], x[0].name));
+          this.pairForm.push(this.listGroup([x[0].name, x[1].name]));
         });
-     }
+        // if already calculate
+        if (data[0].value) {
+          this.addDataToForm(data);
+        }
+      }
     });
   }
 
+  addDataToForm(data: Criteria[]) {
+    const a = [];
+    data.map(criteria => {
+      criteria.value.map((val, vIndex) => {
+        if (criteria.order !== vIndex) {
+          if (val >= 1) {
+            a.push({
+              pair: [data[criteria.order].name, data[vIndex].name],
+              choose: data[criteria.order].name,
+              value: val
+            });
+          }
+        }
+      });
+    });
+    this.syncWithPair(a);
+  }
+
+  syncWithPair(data: any[]) {
+    const a = [];
+    this.pairwise.map(x => {
+      data.map(y => {
+        if ([x[0].name, x[1].name].includes(y.pair[0]) && [x[0].name, x[1].name].includes(y.pair[1])) {
+          a.push({
+            pair: [x[0].name, x[1].name],
+            choose: y.choose,
+            value: y.value
+          });
+        }
+      });
+    });
+    a.map(x => {
+      if (x.pair[0] === x.choose) {
+        x.value = x.value * -1;
+      }
+    });
+    this.pairForm.patchValue(a);
+  }
+
   // form item stucture
-  listGroup(pairs: any[], choose: string): FormGroup {
+  listGroup(pairs: any[]): FormGroup {
     return this.fb.group({
       pair: [pairs, Validators.required],
-      choose: [choose, Validators.required],
+      choose: [''],
       value: ['', Validators.required],
     });
   }
   calculate() {
+    // set choose from value
+    this.pairForm.value.map(x => {
+      if (x.value < 0) {
+        x.value = x.value * -1;
+        x.choose = x.pair[0];
+      } else {
+        x.choose = x.pair[1];
+      }
+    });
     console.log('Criteria pair form', this.pairForm.value);
-    this.criteriaService.criterias$.value.map((criteria: Criteria, index: number) => {
+    this.criteriaService.criterias$.value.forEach((criteria: Criteria, index: number) => {
       // reset value first
       criteria.value = [];
 
-      this.pairForm.value.map((x: any, mapIndex: number) => {
+      this.pairForm.value.forEach((x: any, mapIndex: number) => {
         if (index === mapIndex && index < this.criteriaService.criterias$.value.length - 1) {
           criteria.value.push(1);
         }

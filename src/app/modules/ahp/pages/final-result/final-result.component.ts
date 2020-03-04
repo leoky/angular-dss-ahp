@@ -4,6 +4,7 @@ import { Chart } from 'chart.js';
 import { CriteriaService } from '../../services/criteria.service';
 import { AlternativeService } from '../../services/alternative.service';
 import { DecisionService } from '../../services/decision.service';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-final-result',
@@ -21,8 +22,11 @@ export class FinalResultComponent implements OnInit {
   displayedColumns: string[] = ['rank', 'name', 'percentage'];
   dataSource: any[];
 
+  user$ = this.userService.user$;
+
   constructor(private criteriaService: CriteriaService,
               private decisionService: DecisionService,
+              private userService: UserService,
               public alternativeService: AlternativeService) { }
 
   ngOnInit() {

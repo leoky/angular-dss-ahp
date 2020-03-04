@@ -8,7 +8,7 @@
             [disabled]="!alternativeService.alternatives$.value[0].priorityVector"
             color="primary">Save</button>
         </span> -->
-        <span fxLayoutAlign="end center" *ngIf="alternativeService.alternatives$.value">
+        <span fxLayoutAlign="end center" *ngIf="(alternativeService.alternatives$ && user$ ) | async">
             <button mat-raised-button
             (click)="save()"
             *ngIf="saveButton"

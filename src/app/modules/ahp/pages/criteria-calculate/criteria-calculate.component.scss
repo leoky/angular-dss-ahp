@@ -1,5 +1,5 @@
 .mat-radio-button{
-    margin: 5px;
+    margin: 8px;
 }
 // radio button
 :host ::ng-deep .mat-radio-label, :host ::ng-deep .mat-radio-container{
@@ -8,4 +8,10 @@
 }
 :host ::ng-deep .mat-radio-label-content{
     padding: 0 !important;
+}
+td{
+    padding: 10px;
+}
+label{
+    font-weight: bold !important;
 }

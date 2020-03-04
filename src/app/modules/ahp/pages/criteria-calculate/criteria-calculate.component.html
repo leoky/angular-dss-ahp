@@ -13,6 +13,27 @@
 </mat-toolbar>
 <div>
     <mat-card>
+         <form [formGroup]="pairForm">
+            <table>
+                <tr class="m-t-20" *ngFor="let pair of pairwise; let i = index" [formGroupName]="i">
+                    <td>
+                        <label for="" title="{{ pair[0].desc }}">{{ pair[0].name | titlecase }}</label>
+                    </td>
+                    <td>
+                        <mat-radio-group formControlName="value">
+                            <mat-radio-button *ngFor="let item of [-9,-8,-7,-6,-5,-4,-3,-2,1,2,3,4,5,6,7,8,9];let i = index" [value]="item">
+                                {{ item < 0 ? item * - 1 : item }}
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </td>
+                    <td>
+                        <label for="" title="{{ pair[1].desc }}">{{ pair[1].name | titlecase  }}</label>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </mat-card>
+</div>
         <!-- <div class="m-t-20" *ngFor="let pair of pairwise">
             <div fxLayoutGap="20px" fxLayoutAlign="center center">
                 <label for="" title="{{ pair[0].desc }}">{{ pair[0].name }}</label>
@@ -33,7 +54,7 @@
             </div>
         </div> -->
 
-        <form [formGroup]="pairForm">
+        <!-- <form [formGroup]="pairForm">
             <div class="m-t-20" *ngFor="let pair of pairwise; let i = index">
                 <div [formGroupName]="i" fxLayoutGap="30px" fxLayoutAlign="start center">
                     <mat-radio-group formControlName="choose">
@@ -51,6 +72,4 @@
                     </mat-radio-group>
                 </div>
             </div>
-        </form>
-    </mat-card>
-</div>
+        </form> -->
