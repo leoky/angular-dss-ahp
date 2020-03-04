@@ -52,9 +52,13 @@ export class AlternativeCalculateComponent implements OnInit {
         this.createForm();
 
         // check if already calculate
-        if (data[this.paramId].alternatives[0].priorityVector) {
-          this.calculated = true;
-          this.addDataToForm(data[this.paramId].alternatives);
+        if (data[this.paramId].alternatives) {
+          if (data[this.paramId].alternatives[this.paramId].priorityVector) {
+            this.calculated = true;
+            this.addDataToForm(data[this.paramId].alternatives);
+          } else {
+            this.calculated = false;
+          }
         }
       }
     });
@@ -98,24 +102,40 @@ export class AlternativeCalculateComponent implements OnInit {
         }
       });
     });
-    this.convertToArray(a);
+    this.syncWithPair(a);
   }
 
-  convertToArray(data: any[]) {
+  syncWithPair(data: any[]) {
     const a = [];
     this.pairwise.map(x => {
       data.map(y => {
-        if ([x[0].name, x[1].name].includes(y.pair[0])) {
-          if ([x[0].name, x[1].name].includes(y.pair[1])) {
-            a.push(y);
-          }
+        if ([x[0].name, x[1].name].includes(y.pair[0]) && [x[0].name, x[1].name].includes(y.pair[1])) {
+            a.push({
+              pair: [x[0].name, x[1].name],
+              choose: y.choose,
+              value: y.value
+            });
         }
       });
+    });
+    a.map(x => {
+      if (x.pair[0] === x.choose) {
+        x.value = x.value * -1;
+      }
     });
     this.pairForm.patchValue(a);
   }
 
   calculate() {
+    // set choose from value
+    this.pairForm.value.map(x => {
+      if (x.value < 0) {
+        x.value = x.value * -1;
+        x.choose = x.pair[0];
+      } else {
+        x.choose = x.pair[1];
+      }
+    });
     this.criteriaService.criterias$.value[this.paramId].alternatives.forEach((alternative: Criteria, index: number) => {
       alternative.value = [];
       this.pairForm.value.forEach((x: any, mapIndex: number) => {
