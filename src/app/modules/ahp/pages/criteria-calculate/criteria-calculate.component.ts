@@ -15,6 +15,18 @@ export class CriteriaCalculateComponent implements OnInit {
  pairwise: any[];
  pairForm = this.fb.array([]);
 
+ pairTitle = [
+   'Equal important',
+   'Between',
+   'Moderate important',
+   'Between',
+   'Strong important',
+   'Between',
+   'Very strong important',
+   'Between',
+   'Extreme  important',
+ ];
+
   constructor(private criteriaService: CriteriaService,
               private fb: FormBuilder,
               private router: Router) { }

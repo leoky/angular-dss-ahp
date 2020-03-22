@@ -17,7 +17,17 @@ export class AlternativeCalculateComponent implements OnInit {
   // model
   criteriaName: string;
   pairwise: any[];
-
+  pairTitle = [
+    'Equal important',
+    'Between',
+    'Moderate important',
+    'Between',
+    'Strong important',
+    'Between',
+    'Very strong important',
+    'Between',
+    'Extreme  important',
+  ];
   // form
   pairForm = this.fb.array([]);
 

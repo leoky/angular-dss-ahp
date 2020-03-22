@@ -26,17 +26,22 @@ export class CriteriaComponent implements OnInit {
   ngOnInit() {
     // if already set value
       this.criterias$.subscribe(data => {
-       if (data) {
-        this.criterias = data.sort((a, b) => {
-          return a.order - b.order;
-        });
-        // generate list form
-        this.listForm.clear();
-        data.map(x => {
-          this.addList();
-        });
-        this.listForm.patchValue(data);
-        this.listForm.disable();
+        if (data) {
+          this.criterias = data.sort((a, b) => {
+            return a.order - b.order;
+          });
+          // generate list form
+          this.listForm.clear();
+          data.map(x => {
+            this.addList();
+          });
+          this.listForm.patchValue(data);
+          this.listForm.disable();
+       } else {
+         this.listForm.clear();
+         this.listForm.push(this.createList());
+         this.listForm.push(this.createList());
+         this.listForm.push(this.createList());
        }
     });
   }

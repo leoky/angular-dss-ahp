@@ -33,6 +33,11 @@ export class AlternativeComponent implements OnInit {
         });
         this.listForm.patchValue(this.alternativeService.alternatives$.value);
         this.listForm.disable();
+      } else {
+        this.listForm.clear();
+        this.listForm.push(this.createList());
+        this.listForm.push(this.createList());
+        this.listForm.push(this.createList());
       }
     });
   }

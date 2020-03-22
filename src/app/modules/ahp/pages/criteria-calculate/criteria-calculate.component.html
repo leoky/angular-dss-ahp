@@ -21,7 +21,7 @@
                     </td>
                     <td>
                         <mat-radio-group formControlName="value">
-                            <mat-radio-button *ngFor="let item of [-9,-8,-7,-6,-5,-4,-3,-2,1,2,3,4,5,6,7,8,9];let i = index" [value]="item">
+                            <mat-radio-button *ngFor="let item of [-9,-8,-7,-6,-5,-4,-3,-2,1,2,3,4,5,6,7,8,9];let i = index" [value]="item" title="{{ item < 0 ? pairTitle[item * -1 - 1]: pairTitle[item - 1] }}">
                                 {{ item < 0 ? item * - 1 : item }}
                             </mat-radio-button>
                         </mat-radio-group>

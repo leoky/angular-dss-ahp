@@ -59,10 +59,12 @@
             </span>
 
             <span fxLayoutAlign="end center">
-                <button mat-button routerLink="/register" *ngIf="!(user$ | async)">Sign up</button>
-                <button mat-raised-button routerLink="/login" *ngIf="!(user$ | async)">Log in</button>
+                <button mat-raised-button routerLink="/ahp/create">
+                    <mat-icon>add</mat-icon>
+                    <span> Create new</span>
+                </button>
+                <button mat-button routerLink="/login" *ngIf="!(user$ | async)">Log in</button>
                 <!-- if login -->
-                <button mat-raised-button routerLink="../0/my-list" routerLinkActive="d-none"*ngIf="(user$ | async)">My List</button>
                 <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu" *ngIf="(user$ | async)">
                     <mat-icon>more_vert</mat-icon>
                 </button>
@@ -73,6 +75,10 @@
                     <button mat-menu-item routerLinkActive="d-none" routerLink="/login">
                         <span>Switch User</span>
                     </button>
+                    <button mat-menu-item routerLinkActive="d-none" routerLink="../0/my-list" routerLinkActive="d-none"*ngIf="(user$ | async)">
+                        <span>My List</span>
+                    </button>
+                    <mat-divider></mat-divider>
                     <button mat-menu-item routerLinkActive="d-none" (click)="logOut()">
                         <mat-icon>exit_to_app</mat-icon>
                         <span>Log out</span>
