@@ -6,16 +6,16 @@
             </button>
         <span *ngIf="criteriaName">Result</span>
         </span>
-        <span fxLayoutAlign="end center" *ngIf="results">
+        <span fxLayoutAlign="end center" *ngIf="criteriaLength">
             <button mat-button routerLink="../../calculate/{{paramId}}">Recalculate</button>
             <button mat-raised-button
             color="primary"
             routerLink="../../calculate/{{paramId+1}}"
-            *ngIf="results.alternatives.length !== paramId + 1">Next</button>
+            *ngIf="criteriaLength !== paramId + 1">Next</button>
             <button mat-raised-button
             color="primary"
             routerLink="../../../result"
-            *ngIf="results.alternatives.length === paramId + 1">Final Result</button>
+            *ngIf="criteriaLength === paramId + 1">Final Result</button>
         </span>
     </mat-toolbar-row>
 </mat-toolbar>

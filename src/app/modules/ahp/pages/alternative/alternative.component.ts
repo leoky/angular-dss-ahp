@@ -66,10 +66,11 @@ export class AlternativeComponent implements OnInit {
   saveList() {
     // add order
     let order = 0;
-    this.alternativeService.alternatives$.next(this.listForm.value.map((x: Criteria) => {
+    const data = this.listForm.value.map((x: Criteria) => {
       x.order = order++;
       return x;
-    }));
+    });
+    this.alternativeService.alternatives$.next(data);
 
     this.listForm.disable();
 

@@ -69,10 +69,11 @@ export class CriteriaComponent implements OnInit {
   // save list
   saveList() {
     let order = 0;
-    this.criteriaService.criterias$.next(this.listForm.value.map((x: Criteria) => {
+    const data = this.listForm.value.map((x: Criteria) => {
       x.order = order++;
       return x;
-    }));
+    });
+    this.criteriaService.criterias$.next(data);
     this.listForm.disable();
     this.criterias = this.criteriaService.criterias$.value;
   }

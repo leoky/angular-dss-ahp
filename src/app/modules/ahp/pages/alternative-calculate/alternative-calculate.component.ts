@@ -63,7 +63,7 @@ export class AlternativeCalculateComponent implements OnInit {
 
         // check if already calculate
         if (data[this.paramId].alternatives) {
-          if (data[this.paramId].alternatives[this.paramId].priorityVector) {
+          if (data[this.paramId].alternatives[0].priorityVector) {
             this.calculated = true;
             this.addDataToForm(data[this.paramId].alternatives);
           } else {

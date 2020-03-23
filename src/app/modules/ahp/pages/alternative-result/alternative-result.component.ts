@@ -26,7 +26,7 @@ export class AlternativeResultComponent implements OnInit {
 
   paramId: number;
   criteriaName: string;
-  results: Criteria;
+  criteriaLength: number;
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -43,12 +43,13 @@ export class AlternativeResultComponent implements OnInit {
       if (data) {
         if (data[this.paramId].alternatives) {
           this.criteriaName = data[this.paramId].name;
+          this.criteriaLength = data.length;
           // calculate first
-          this.results = this.alternativeService.calculate(this.paramId);
+          this.alternativeService.calculate(this.paramId);
           // insert data to chart.js
           this.createChart();
           // add data to table
-          this.dataSource = this.results.alternatives.map((alternative) => {
+          this.dataSource = this.criteriaService.criterias$.value[this.paramId].alternatives.map((alternative) => {
             return {
               rank: alternative.rank,
               name: alternative.name,
@@ -66,13 +67,13 @@ export class AlternativeResultComponent implements OnInit {
     this.chart = new Chart('canvas', {
       type: 'bar',
       data: {
-        labels: this.results.alternatives.map((x) => {
+        labels: this.criteriaService.criterias$.value[this.paramId].alternatives.map((x) => {
           return x.name;
         }),
         datasets: [
           {
             label: 'Priority Vector (%)',
-            data: this.results.alternatives.map((x) => {
+            data: this.criteriaService.criterias$.value[this.paramId].alternatives.map((x) => {
               return x.priorityVector * 100;
             })
           }

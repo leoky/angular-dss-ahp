@@ -41,7 +41,7 @@ export class AlternativeService {
     }
   }
 
-  calculate(id: number): Criteria {
+  calculate(id: number): void {
     if (this.criteriaService.criterias$.value[id].alternatives) {
       const total = this.criteriaService.criterias$.value[id].alternatives.map((c, index) => {
         let sum = 0;
@@ -59,7 +59,6 @@ export class AlternativeService {
         = sum / this.criteriaService.criterias$.value[id].alternatives.length;
       });
       this.rank(id);
-      return this.criteriaService.criterias$.value[id];
     }
   }
   rank(id: number): void {
