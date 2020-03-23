@@ -4,13 +4,17 @@ import { map, shareReplay } from 'rxjs/operators';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { FormControl } from '@angular/forms';
-import { MatSidenav } from '@angular/material';
+import { MatSidenav } from '@angular/material/sidenav';
+import {MatDialog, MatDialogConfig } from '@angular/material/dialog';
 // service
+import { User } from 'src/app/core/models/user';
 import { CriteriaService } from './services/criteria.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { DecisionService } from './services/decision.service';
-import { User } from 'src/app/core/models/user';
 import { Criteria } from './models/criteria';
+import { AlternativeService } from './services/alternative.service';
+// component
+import { DialogConfirmComponent } from './components/dialog-confirm/dialog-confirm.component';
 
 @Component({
   selector: 'app-ahp',
@@ -51,8 +55,10 @@ export class AhpComponent implements OnInit {
   constructor(private breakpointObserver: BreakpointObserver,
               private route: ActivatedRoute,
               private router: Router,
+              private matDialog: MatDialog,
               private userService: UserService,
               private criteriaService: CriteriaService,
+              private alternativeService: AlternativeService,
               private decisionService: DecisionService) {
     // for hide navbar in mylist route
     this.router.events.subscribe(event => {
@@ -72,15 +78,34 @@ export class AhpComponent implements OnInit {
     this.userService.getUser().subscribe();
     this.route.paramMap.subscribe(params => {
       if (params.get('id') === 'create') {
-        this.decisionService.createNew();
+        // this.decisionService.createNew();
+        this.updateDecision();
       } else {
         // get data from server
         this.decisionService.getDecision(params.get('id')).subscribe(() => {
           this.updateDecision();
         });
       }
-      this.updateDecision();
     });
+  }
+
+  createNew() {
+    // check if it has been edited
+    if (this.criteriaService.criterias$.value || this.alternativeService.alternatives$.value) {
+      // dialog
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+
+      this.matDialog.open(DialogConfirmComponent, dialogConfig)
+      .afterClosed().subscribe(result => {
+        if (result) {
+          this.router.navigateByUrl('/ahp/create');
+          // reset data
+          this.decisionService.createNew();
+          this.updateDecision();
+        }
+      });
+    }
   }
 
   // form control

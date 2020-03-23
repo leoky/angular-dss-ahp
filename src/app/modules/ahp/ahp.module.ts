@@ -7,6 +7,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatTableModule} from '@angular/material/table';
+import {MatDialogModule} from '@angular/material/dialog';
 // service
 import { CriteriaService } from './services/criteria.service';
 import { AlternativeService } from './services/alternative.service';
@@ -21,10 +22,12 @@ import { AlternativeCalculateComponent } from './pages/alternative-calculate/alt
 import { AlternativeResultComponent } from './pages/alternative-result/alternative-result.component';
 import { FinalResultComponent } from './pages/final-result/final-result.component';
 import { MyListComponent } from './pages/my-list/my-list.component';
+import { DialogConfirmComponent } from './components/dialog-confirm/dialog-confirm.component';
 
 @NgModule({
   declarations: [AhpComponent, CriteriaComponent, CriteriaCalculateComponent, CriteriaResultComponent,
-    AlternativeComponent, AlternativeCalculateComponent, AlternativeResultComponent, FinalResultComponent, MyListComponent],
+    AlternativeComponent, AlternativeCalculateComponent, AlternativeResultComponent, FinalResultComponent,
+    MyListComponent, DialogConfirmComponent],
   imports: [
     CommonModule,
     AhpRoutingModule,
@@ -34,7 +37,9 @@ import { MyListComponent } from './pages/my-list/my-list.component';
     MatListModule,
     MatRadioModule,
     MatTableModule,
+    MatDialogModule,
   ],
+  entryComponents: [DialogConfirmComponent],
   providers: [
     CriteriaService,
     AlternativeService,
