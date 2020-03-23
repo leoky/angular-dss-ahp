@@ -121,6 +121,8 @@ export class AhpComponent implements OnInit {
   }
 
   logOut() {
-    this.userService.logOut().subscribe();
+    this.userService.logOut().subscribe(() => {
+      this.router.navigateByUrl('/');
+    });
   }
 }

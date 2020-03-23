@@ -13,6 +13,7 @@ export class UserService {
 
   user$: BehaviorSubject<User> = new BehaviorSubject<User>(null);
 
+  redirectUrl = '/';
   // api url
   baseUrl = `${environment.api}`;
 

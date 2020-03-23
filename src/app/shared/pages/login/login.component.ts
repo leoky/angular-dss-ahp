@@ -16,6 +16,9 @@ export class LoginComponent implements OnInit {
    // spinner
    clicked = false;
 
+   // url
+   redirectUrl = '/';
+
    // form
   loginForm = this.fb.group({
     email: ['', Validators.required],
@@ -27,13 +30,14 @@ export class LoginComponent implements OnInit {
               private userService: UserService) { }
 
   ngOnInit() {
+    this.redirectUrl = this.userService.redirectUrl;
   }
 
   logIn() {
     if (this.loginForm.valid) {
       this.userService.logIn(this.loginForm.value).subscribe(result => {
         if (this.userService.user$) {
-          this.router.navigate(['/']);
+          this.router.navigateByUrl(this.redirectUrl);
         }
       }, () => {
         // if error

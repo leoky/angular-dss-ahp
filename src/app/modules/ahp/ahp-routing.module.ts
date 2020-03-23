@@ -10,6 +10,7 @@ import { AlternativeCalculateComponent } from './pages/alternative-calculate/alt
 import { AlternativeResultComponent } from './pages/alternative-result/alternative-result.component';
 import { FinalResultComponent } from './pages/final-result/final-result.component';
 import { MyListComponent } from './pages/my-list/my-list.component';
+import { AuthGuard } from 'src/app/core/guard/auth.guard';
 
 const routes: Routes = [
   { path: ':id',
@@ -17,6 +18,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
+        canActivateChild: [AuthGuard],
         children: [
           { path: '', redirectTo: 'criteria', pathMatch: 'full'},
           { path: 'criteria', component: CriteriaComponent},
