@@ -30,7 +30,7 @@
                     <!-- Name Column -->
                     <ng-container matColumnDef="name">
                         <th mat-header-cell *matHeaderCellDef> Name </th>
-                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                        <td mat-cell *matCellDef="let element" title="{{element.desc}}"> {{element.name}} </td>
                     </ng-container>
     
                     <!-- percentage Column -->
@@ -51,4 +51,6 @@
             </div>
         </mat-card-content>
     </mat-card>
+    <!-- cr info -->
+    <p title="Consistency ratio" *ngIf="cr > 0">CR : {{cr | number : '1.2-4' }}</p>
 </div>

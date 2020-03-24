@@ -35,7 +35,7 @@ export class CriteriaCalculateComponent implements OnInit {
     this.criteriaService.criterias$.subscribe(data => {
      if (data) {
         // pair first
-        this.pairwise = this.criteriaService.pairwise(data);
+        this.pairwise = this.criteriaService.ahpHelper.pairwise(data);
         // loop pair to form
         this.pairForm.clear();
         this.pairwise.map((x) => {
@@ -98,7 +98,8 @@ export class CriteriaCalculateComponent implements OnInit {
   }
   calculate() {
     // set choose from value
-    this.pairForm.value.map(x => {
+    const pairForm = this.pairForm.value.map(x => ({...x}));
+    pairForm.map(x => {
       if (x.value < 0) {
         x.value = x.value * -1;
         x.choose = x.pair[0];
@@ -106,12 +107,15 @@ export class CriteriaCalculateComponent implements OnInit {
         x.choose = x.pair[1];
       }
     });
-    console.log('Criteria pair form', this.pairForm.value);
-    this.criteriaService.criterias$.value.forEach((criteria: Criteria, index: number) => {
+    console.log('Criteria pair form', pairForm);
+
+    const tempData = this.criteriaService.criterias$.value.map(x => ({...x}));
+
+    tempData.forEach((criteria: Criteria, index: number) => {
       // reset value first
       criteria.value = [];
 
-      this.pairForm.value.forEach((x: any, mapIndex: number) => {
+      pairForm.forEach((x: any, mapIndex: number) => {
         if (index === mapIndex && index < this.criteriaService.criterias$.value.length - 1) {
           criteria.value.push(1);
         }
@@ -127,7 +131,15 @@ export class CriteriaCalculateComponent implements OnInit {
         }
       });
     });
-    console.log('Criteria pair result', this.criteriaService.criterias$.value);
-    this.router.navigate([this.router.url.substring(0, this.router.url.length - 9), 'result']);
+    // check Consistency ratio < 0.1
+    const a = this.criteriaService.calculatePV(tempData);
+    if (a.next) {
+      this.criteriaService.criterias$.next(tempData);
+      console.log('Criteria pair result', this.criteriaService.criterias$.value);
+      console.log('CR criteria: ', a.cr);
+      this.router.navigate([this.router.url.substring(0, this.router.url.length - 9), 'result']);
+    } else {
+      alert(`CR = ${a.cr} \nCR > 0.1\nTry again!`);
+    }
   }
 }
