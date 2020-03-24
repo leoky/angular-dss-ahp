@@ -5,7 +5,7 @@ html, body { height: 100%; }
 body { 
     margin: 0; 
     font-family: Roboto, "Helvetica Neue", sans-serif;
- }
+}
 .h-100p{
     height: 100% !important;
 }
@@ -57,3 +57,6 @@ body {
     margin-top: 20% !important;
 }
 // padding
+.p-container{
+    padding: 16px !important;
+}
