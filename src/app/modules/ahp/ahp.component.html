@@ -3,7 +3,7 @@
     <mat-sidenav #drawer
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'">
-    <div fxLayout="column" class="h-100p">
+    <div fxLayout="column" class="h-min-100v">
         <div class="title">
             <form>
                 <mat-form-field>
