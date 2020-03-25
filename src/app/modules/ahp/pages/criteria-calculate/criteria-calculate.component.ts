@@ -116,7 +116,7 @@ export class CriteriaCalculateComponent implements OnInit {
       criteria.value = [];
 
       pairForm.forEach((x: any, mapIndex: number) => {
-        if (index === mapIndex && index < this.criteriaService.criterias$.value.length - 1) {
+        if (index === mapIndex && index < tempData.length - 1) {
           criteria.value.push(1);
         }
         if (x.pair.includes(criteria.name)) {
@@ -126,7 +126,7 @@ export class CriteriaCalculateComponent implements OnInit {
             criteria.value.push(1 / x.value);
           }
         }
-        if (index === mapIndex && index >= this.criteriaService.criterias$.value.length - 1) {
+        if (index === mapIndex && index >= tempData.length - 1) {
           criteria.value.push(1);
         }
       });

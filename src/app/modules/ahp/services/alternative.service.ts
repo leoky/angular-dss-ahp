@@ -14,22 +14,6 @@ export class AlternativeService {
 
   constructor(private criteriaService: CriteriaService) { }
 
-  // for pair bettween alternative
-  pairwise(list: Criteria[]): any[] {
-    if (list) {
-      // sort by order asc
-      list.sort((a, b) => {
-        return a.order - b.order;
-      });
-      if (list.length < 2) { return []; }
-      const first = list[0];
-      const rest = list.slice(1);
-      const pair = rest.map((x) => {
-        return [first, x];
-      });
-      return pair.concat(this.pairwise(rest));
-    }
-  }
   createAltCrit(): void {
     if (this.criteriaService.criterias$.value && this.alternatives$.value) {
       this.criteriaService.criterias$.value.forEach(result => {
@@ -41,54 +25,61 @@ export class AlternativeService {
     }
   }
 
-  calculate(id: number): void {
-    if (this.criteriaService.criterias$.value[id].alternatives) {
-      const total = this.criteriaService.criterias$.value[id].alternatives.map((c, index) => {
-        let sum = 0;
-        this.criteriaService.criterias$.value[id].alternatives.map((x) => {
-          sum += x.value[index];
-        });
-        return sum;
-      });
-      this.criteriaService.criterias$.value[id].alternatives.map((c, cIndex) => {
-        let sum = 0;
-        c.value.map((value, index) => {
-          sum += (value / total[index]);
-        });
-        this.criteriaService.criterias$.value[id].alternatives[cIndex].priorityVector
-        = sum / this.criteriaService.criterias$.value[id].alternatives.length;
-      });
-      this.rank(id);
-    }
+  calculatePV(data: Criteria[]) {
+    return this.criteriaService.ahpHelper.calculatePV(data);
   }
-  rank(id: number): void {
-    if (this.criteriaService.criterias$.value[id].alternatives) {
-      // tslint:disable-next-line: prefer-const
-      let rank = 1;
-      this.criteriaService.criterias$.value[id].alternatives.map(x => x)
-      .sort((a, b) => {
-        return b.priorityVector - a.priorityVector;
-      }).map(x => {
-        x.rank = rank++;
-        return x;
-      }).sort((a, b) => {
-        return a.order - b.order;
-      });
-    }
+  setPV(id: number) {
+    return this.criteriaService.ahpHelper.setPV(this.criteriaService.criterias$.value[id].alternatives);
   }
-  rankFinal(): void {
-    if (this.alternatives$.value) {
-      let rank = 1;
-      this.alternatives$.value.map(x => x)
-      .sort((a, b) => {
-        return b.priorityVector - a.priorityVector;
-      }).map(x => {
-        x.rank = rank++;
-        return x;
-      }).sort((a, b) => {
-        return a.order - b.order;
-      });
-    }
-  }
+
+  // calculate(id: number): void {
+  //   if (this.criteriaService.criterias$.value[id].alternatives) {
+  //     const total = this.criteriaService.criterias$.value[id].alternatives.map((c, index) => {
+  //       let sum = 0;
+  //       this.criteriaService.criterias$.value[id].alternatives.map((x) => {
+  //         sum += x.value[index];
+  //       });
+  //       return sum;
+  //     });
+  //     this.criteriaService.criterias$.value[id].alternatives.map((c, cIndex) => {
+  //       let sum = 0;
+  //       c.value.map((value, index) => {
+  //         sum += (value / total[index]);
+  //       });
+  //       this.criteriaService.criterias$.value[id].alternatives[cIndex].priorityVector
+  //       = sum / this.criteriaService.criterias$.value[id].alternatives.length;
+  //     });
+  //     this.rank(id);
+  //   }
+  // }
+  // rank(id: number): void {
+  //   if (this.criteriaService.criterias$.value[id].alternatives) {
+  //     // tslint:disable-next-line: prefer-const
+  //     let rank = 1;
+  //     this.criteriaService.criterias$.value[id].alternatives.map(x => x)
+  //     .sort((a, b) => {
+  //       return b.priorityVector - a.priorityVector;
+  //     }).map(x => {
+  //       x.rank = rank++;
+  //       return x;
+  //     }).sort((a, b) => {
+  //       return a.order - b.order;
+  //     });
+  //   }
+  // }
+  // rankFinal(): void {
+  //   if (this.alternatives$.value) {
+  //     let rank = 1;
+  //     this.alternatives$.value.map(x => x)
+  //     .sort((a, b) => {
+  //       return b.priorityVector - a.priorityVector;
+  //     }).map(x => {
+  //       x.rank = rank++;
+  //       return x;
+  //     }).sort((a, b) => {
+  //       return a.order - b.order;
+  //     });
+  //   }
+  // }
 
 }

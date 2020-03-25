@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { Chart } from 'chart.js';
 // service
 import { CriteriaService } from '../../services/criteria.service';
 import { AlternativeService } from '../../services/alternative.service';
 import { DecisionService } from '../../services/decision.service';
 import { UserService } from 'src/app/core/services/user.service';
+import { Criteria } from '../../models/criteria';
 
 @Component({
   selector: 'app-final-result',
@@ -27,6 +28,7 @@ export class FinalResultComponent implements OnInit {
   constructor(private criteriaService: CriteriaService,
               private decisionService: DecisionService,
               private userService: UserService,
+              private elementRef: ElementRef,
               public alternativeService: AlternativeService) { }
 
   ngOnInit() {
@@ -34,13 +36,14 @@ export class FinalResultComponent implements OnInit {
 
       this.calculate();
 
-      this.createChart();
+      this.createChart(this.alternativeService.alternatives$.value);
 
       // add data to table
       this.dataSource = this.alternativeService.alternatives$.value.map((alternative) => {
         return {
           rank: alternative.rank,
           name: alternative.name,
+          desc: alternative.desc,
           percentage: alternative.priorityVector * 100
         };
       }).sort((a, b) => {
@@ -87,34 +90,37 @@ export class FinalResultComponent implements OnInit {
       this.alternativeService.alternatives$.value[i].priorityVector = sum;
     }
     // rank
-    this.alternativeService.rankFinal();
+    this.criteriaService.ahpHelper.rank(this.alternativeService.alternatives$.value);
   }
-  createChart() {
-    this.chart = new Chart('canvas', {
-      type: 'bar',
-      data: {
-        labels: this.alternativeService.alternatives$.value.map((x) => {
-          return x.name;
-        }),
-        datasets: [
-          {
-            label: 'Priority Vector (%)',
-            data: this.alternativeService.alternatives$.value.map((x) => {
-              return x.priorityVector * 100;
-            })
-          }
-        ]
-      },
-      options: {
-        scales: {
-          yAxes: [{
-            ticks : {
-              min: 0,
-              max: 100
+  createChart(data: Criteria[]) {
+    if (data[0].priorityVector) {
+      const idCanvas = this.elementRef.nativeElement.querySelector('#canvas');
+      this.chart = new Chart(idCanvas, {
+        type: 'bar',
+        data: {
+          labels: data.map((x) => {
+            return x.name;
+          }),
+          datasets: [
+            {
+              label: 'Priority Vector (%)',
+              data: data.map((x) => {
+                return x.priorityVector * 100;
+              })
             }
-          }]
+          ]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks : {
+                min: 0,
+                max: 100
+              }
+            }]
+          }
         }
-      }
-    });
+      });
+    }
   }
 }

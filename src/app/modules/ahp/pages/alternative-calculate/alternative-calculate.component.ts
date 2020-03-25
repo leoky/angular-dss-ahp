@@ -58,32 +58,34 @@ export class AlternativeCalculateComponent implements OnInit {
     // initial data and form
     this.criteriaService.criterias$.subscribe(data => {
       if (data) {
+        // set criteria name
         this.criteriaName = data[this.paramId].name;
-        this.createForm();
-
-        // check if already calculate
-        if (data[this.paramId].alternatives) {
-          if (data[this.paramId].alternatives[0].priorityVector) {
-            this.calculated = true;
-            this.addDataToForm(data[this.paramId].alternatives);
-          } else {
-            this.calculated = false;
-          }
-        }
+        // create form
+        this.createForm(data[this.paramId].alternatives);
       }
     });
   }
 
-  createForm(): void {
-    this.altService.alternatives$.subscribe(data => {
-      if (data) {
-        this.pairForm.clear();
+  createForm(data: Criteria[]): void {
+    this.altService.alternatives$.subscribe(altData => {
+      if (altData) {
         // pair first
-        this.pairwise = this.altService.pairwise(data);
+        this.pairwise = this.criteriaService.ahpHelper.pairwise(altData);
         // loop pair to form
+        this.pairForm.clear();
         this.pairwise.map((x) => {
           this.pairForm.push(this.listGroup([x[0].name, x[1].name], x[0].name));
         });
+
+        // if already calculated
+        if (data) {
+          if (data[0].priorityVector) {
+            this.calculated = true;
+            this.addDataToForm(data);
+          } else {
+            this.calculated = false;
+          }
+        }
       }
     });
   }
@@ -138,7 +140,8 @@ export class AlternativeCalculateComponent implements OnInit {
 
   calculate() {
     // set choose from value
-    this.pairForm.value.map(x => {
+    const pairForm = this.pairForm.value.map(x => ({...x}));
+    pairForm.map(x => {
       if (x.value < 0) {
         x.value = x.value * -1;
         x.choose = x.pair[0];
@@ -146,11 +149,16 @@ export class AlternativeCalculateComponent implements OnInit {
         x.choose = x.pair[1];
       }
     });
-    this.criteriaService.criterias$.value[this.paramId].alternatives.forEach((alternative: Criteria, index: number) => {
-      alternative.value = [];
-      this.pairForm.value.forEach((x: any, mapIndex: number) => {
 
-        if (index === mapIndex && index < this.criteriaService.criterias$.value[this.paramId].alternatives.length - 1) {
+    const tempData = this.criteriaService.criterias$.value[this.paramId].alternatives.map(x => ({...x}));
+
+    tempData.forEach((alternative: Criteria, index: number) => {
+
+      alternative.value = [];
+
+      pairForm.forEach((x: any, mapIndex: number) => {
+
+        if (index === mapIndex && index < tempData.length - 1) {
           alternative.value.push(1);
         }
 
@@ -161,15 +169,22 @@ export class AlternativeCalculateComponent implements OnInit {
             alternative.value.push(1 / x.value);
           }
         }
-        if (index === mapIndex && index >= this.criteriaService.criterias$.value[this.paramId].alternatives.length - 1) {
+        if (index === mapIndex && index >= tempData.length - 1) {
           alternative.value.push(1);
         }
       });
     });
-    // console.log('altCrit result', this.altService.altCrits);
-    console.log('altCrit result ', this.paramId, ' ', this.criteriaService.criterias$.value[this.paramId].alternatives);
-    // delete calculate/0
-    this.router.navigate([this.router.url.substring(0, this.router.url.length - 11), 'result', this.paramId]);
+    const a = this.altService.calculatePV(tempData);
+
+    if (a.next) {
+      this.criteriaService.criterias$.value[this.paramId].alternatives = tempData;
+      console.log('altCrit result ', this.paramId, ' ', this.criteriaService.criterias$.value[this.paramId].alternatives);
+      console.log('CR criteria: ', a.cr);
+      // delete calculate/0
+      this.router.navigate([this.router.url.substring(0, this.router.url.length - 11), 'result', this.paramId]);
+    } else {
+      alert(`CR = ${a.cr} \nCR > 0.1\nTry again!`);
+    }
   }
   goBack() {
     this.location.back();
