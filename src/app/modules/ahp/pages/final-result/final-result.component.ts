@@ -15,7 +15,7 @@ import { Criteria } from '../../models/criteria';
 export class FinalResultComponent implements OnInit {
 
   // button
-  saveButton = false;
+  saveButton = true;
 
   chart = {};
 
@@ -67,7 +67,9 @@ export class FinalResultComponent implements OnInit {
   }
 
   update() {
-    this.decisionService.update().subscribe();
+    this.decisionService.update().subscribe(() => {
+      this.saveButton = false;
+    });
   }
 
   calculate() {

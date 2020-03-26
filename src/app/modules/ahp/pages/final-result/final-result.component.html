@@ -1,23 +1,25 @@
 <mat-toolbar>
     <mat-toolbar-row>
         <span class="m-r-a" fxLayoutAlign="center center">
-        <span>Final Result</span>
+            <span>Final Result</span>
         </span>
-        <!-- <span fxLayoutAlign="end center" *ngIf="alternativeService.alternatives$.value">
-            <button mat-raised-button
-            [disabled]="!alternativeService.alternatives$.value[0].priorityVector"
-            color="primary">Save</button>
-        </span> -->
-        <span fxLayoutAlign="end center" *ngIf="(alternativeService.alternatives$ && user$ ) | async">
-            <button mat-raised-button
-            (click)="save()"
-            *ngIf="saveButton"
-            color="primary">Save</button>
-            <button mat-raised-button
-            (click)="update()"
-            *ngIf="!saveButton"
-            color="primary">Update</button>
+
+        <span *ngIf="user$ | async; else login">
+            <div fxLayoutAlign="end center" *ngIf="(alternativeService.alternatives$ | async)[0]?.priorityVector">
+                <button mat-raised-button
+                (click)="save()"
+                *ngIf="saveButton"
+                color="primary">Save</button>
+                <button mat-raised-button
+                (click)="update()"
+                *ngIf="!saveButton"
+                color="primary">Update</button>
+            </div>
         </span>
+        <!-- if not login -->
+        <ng-template #login>
+            <div class="mat-caption">Login first to Save</div>
+        </ng-template>
     </mat-toolbar-row>
 </mat-toolbar>
 <div>
