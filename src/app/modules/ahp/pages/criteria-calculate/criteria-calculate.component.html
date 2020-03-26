@@ -19,11 +19,17 @@
                     <td>
                         <label for="" title="{{ pair[0].desc }}">{{ pair[0].name | titlecase }}</label>
                     </td>
-                    <td>
-                        <mat-radio-group formControlName="value">
-                            <mat-radio-button *ngFor="let item of [-9,-8,-7,-6,-5,-4,-3,-2,1,2,3,4,5,6,7,8,9];let i = index" [value]="item" title="{{ item < 0 ? pairTitle[item * -1 - 1]: pairTitle[item - 1] }}">
-                                {{ item < 0 ? item * - 1 : item }}
-                            </mat-radio-button>
+                    <td class="radio-control">
+                        <mat-radio-group formControlName="value" fxLayoutGap="20px">
+                            <div
+                            *ngFor="let item of [-9,-8,-7,-6,-5,-4,-3,-2,1,2,3,4,5,6,7,8,9];let i = index" 
+                            class="radioSize{{item < 0 ? item * - 1 : item}}">
+                                <mat-radio-button
+                                [value]="item"
+                                title="{{ item < 0 ? pairTitle[item * -1 - 1]: pairTitle[item - 1] }}">
+                                    {{ item < 0 ? item * - 1 : item }}
+                                </mat-radio-button>
+                            </div>
                         </mat-radio-group>
                     </td>
                     <td>

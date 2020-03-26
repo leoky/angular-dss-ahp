@@ -1,0 +1,8 @@
+form{
+    overflow-x: auto;
+}
+@media screen and(max-width :599px){
+    .mat-form-field{
+        min-width: 50vw;
+    }
+}

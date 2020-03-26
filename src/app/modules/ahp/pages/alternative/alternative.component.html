@@ -20,7 +20,7 @@
         <!-- list form -->
         <form [formGroup]="listForm" class="m-t-10">
            <div *ngFor="let item of getList.controls; let i = index">
-               <div [formGroupName]="i" fxLayoutGap="20px">
+               <div [formGroupName]="i" fxLayoutGap="20px" fxLayout="row">
                     <!-- name -->
                     <mat-form-field>
                         <input required matInput placeholder="Name" name="altName{{i}}"formControlName="name" maxlength="32">
