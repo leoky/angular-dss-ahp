@@ -132,10 +132,18 @@ export class AlternativeCalculateComponent implements OnInit {
     });
     a.map(x => {
       if (x.pair[0] === x.choose) {
-        x.value = x.value * -1;
+        if (x.value !== 1) {
+          x.value = x.value * -1;
+        } else {
+          x.value = x.value;
+        }
       }
     });
-    this.pairForm.patchValue(a);
+    // filter if duplicate pair
+    const b = a.filter((value, index, self) =>
+      index === self.findIndex((x) => (x.pair[0] === value.pair[0] && x.pair[1] === value.pair[1]))
+    );
+    this.pairForm.patchValue(b);
   }
 
   calculate() {
