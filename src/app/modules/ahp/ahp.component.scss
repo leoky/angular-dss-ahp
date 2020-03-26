@@ -23,3 +23,7 @@
 .mat-expansion-panel{
   box-shadow: none !important;
 }
+.mat-expansion-panel .list-item{
+  max-width: 80%;
+  overflow-x: hidden;
+}
