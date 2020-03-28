@@ -95,8 +95,10 @@ export class DecisionService {
       return this.http.put<Decision>(`${this.baseUrl}/decision/${this.decision.id}`, this.decision)
       .pipe(
         tap(result => {
-          this.convertToArray(this.decision);
-          this.snakeBar.open('Updated');
+          if (result) {
+            this.getDecision(result.id);
+            this.snakeBar.open('Updated');
+          }
         }),
         catchError(this.handleError.bind(this))
       );
