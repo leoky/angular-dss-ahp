@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { DecisionService } from '../../services/decision.service';
 import { Decision } from '../../models/decision';
-import { Router } from '@angular/router';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-my-list',
@@ -13,18 +14,22 @@ export class MyListComponent implements OnInit {
   decisions: Decision[];
 
   constructor(private decisionService: DecisionService,
+              private userService: UserService,
               private route: Router) { }
 
   ngOnInit() {
-    this.getData();
+    this.userService.getUser().subscribe(data => {
+      if (data) {
+        this.getData();
+      } else {
+        this.route.navigateByUrl('/login');
+      }
+    });
   }
 
   getData() {
     this.decisionService.getDecisions().subscribe(result => {
         this.decisions = result;
-    },
-    (err) => {
-      this.route.navigateByUrl('/login');
     });
   }
 
