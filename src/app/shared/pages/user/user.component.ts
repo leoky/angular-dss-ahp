@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, Validators } from '@angular/forms';
 import { UserService } from '../../../core/services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -20,6 +21,7 @@ export class UserComponent implements OnInit {
   });
   constructor(private location: Location,
               private userService: UserService,
+              private router: Router,
               private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -29,6 +31,8 @@ export class UserComponent implements OnInit {
   getData() {
     this.userService.getUser().subscribe(data => {
       this.userForm.patchValue(data);
+    }, (err) => {
+      this.router.navigate(['/login']);
     });
     this.userForm.disable();
   }
