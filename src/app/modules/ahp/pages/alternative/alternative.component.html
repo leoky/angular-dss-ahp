@@ -30,7 +30,7 @@
                         <input matInput placeholder="Description" name="altDesc{{i}}"formControlName="desc">
                     </mat-form-field>
                     <!-- delete button -->
-                    <button mat-icon-button aria-label="Delete"title="Delete"(click)="deleteList(i)"*ngIf="listForm.enabled">
+                    <button mat-icon-button aria-label="Delete"title="Delete"(click)="deleteList(i)"*ngIf="listForm.enabled && i>2">
                         <mat-icon>close</mat-icon>
                     </button>
                </div>
