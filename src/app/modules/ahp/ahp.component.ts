@@ -84,6 +84,8 @@ export class AhpComponent implements OnInit {
         // get data from server
         this.decisionService.getDecision(params.get('id')).subscribe(() => {
           this.updateDecision();
+        }, err => {
+          this.router.navigateByUrl('/ahp/create');
         });
       }
     });
