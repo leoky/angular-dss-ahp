@@ -77,7 +77,7 @@ export class AhpComponent implements OnInit {
   ngOnInit() {
     this.userService.getUser().subscribe();
     this.route.paramMap.subscribe(params => {
-      if (params.get('id') === 'create') {
+      if (params.get('id') === 'create' || params.get('id') === '0') {
         // this.decisionService.createNew();
         this.updateDecision();
       } else {
