@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DecisionService } from '../../services/decision.service';
 import { Decision } from '../../models/decision';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-list',
@@ -9,10 +10,10 @@ import { Decision } from '../../models/decision';
 })
 export class MyListComponent implements OnInit {
 
-  myList = ['sdssd', '2d1e12d', 'sdj1k2jdl'];
   decisions: Decision[];
 
-  constructor(private decisionService: DecisionService) { }
+  constructor(private decisionService: DecisionService,
+              private route: Router) { }
 
   ngOnInit() {
     this.getData();
@@ -20,7 +21,10 @@ export class MyListComponent implements OnInit {
 
   getData() {
     this.decisionService.getDecisions().subscribe(result => {
-      this.decisions = result;
+        this.decisions = result;
+    },
+    (err) => {
+      this.route.navigateByUrl('/login');
     });
   }
 

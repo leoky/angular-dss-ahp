@@ -93,7 +93,7 @@ export class UserService {
       console.error(
         `Backend returned code ${error.status}, ` +
         `body was: ${error.error.message}`);
-      // this.snakeBar.open(`error: ${error.error.message}`);
+      this.snakeBar.open(`error: ${error.error.message}`);
     }
     // return an observable with a user-facing error message
     return throwError(
