@@ -48,10 +48,15 @@ export class CriteriaComponent implements OnInit {
   // create list
   createList(): FormGroup {
     return this.fb.group({
+      id: [],
+      decisionId: [],
       name: ['', [Validators.required, Validators.maxLength(32)]],
       desc: [''],
       order: [0],
-      value: [[]]
+      value: [[]],
+      rank: [],
+      priorityVector: [],
+      alternatives: [],
     });
   }
   // get list

@@ -36,6 +36,9 @@ export class DecisionService {
   save(): Observable<Decision> {
     this.decision.criterias = this.criteriaService.criterias$.value.map(x => {
       const a: any = x;
+      // remove attribute if any null value
+      Object.keys(a).forEach((key) => (a[key] == null) && delete a[key]);
+
       a.value = a.value.toString();
       a.alternatives = a.alternatives.map(b => {
         const c: any = b;
