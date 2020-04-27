@@ -101,13 +101,19 @@ export class AhpComponent implements OnInit {
       this.matDialog.open(DialogConfirmComponent, dialogConfig)
       .afterClosed().subscribe(result => {
         if (result) {
-          this.router.navigateByUrl('/ahp/create');
-          // reset data
-          this.decisionService.createNew();
-          this.updateDecision();
+          this.goToNew();
         }
       });
+    } else {
+      this.goToNew();
     }
+  }
+
+  goToNew() {
+    this.router.navigateByUrl('/ahp/create');
+    // reset data
+    this.decisionService.createNew();
+    this.updateDecision();
   }
 
   // form control
