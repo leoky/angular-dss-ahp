@@ -98,6 +98,12 @@ export class AhpComponent implements OnInit {
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
 
+      // parsing data to dialog
+      dialogConfig.data = {
+        title: 'Create new',
+        description: 'Are you sure you want to do this?'
+      };
+
       this.matDialog.open(DialogConfirmComponent, dialogConfig)
       .afterClosed().subscribe(result => {
         if (result) {

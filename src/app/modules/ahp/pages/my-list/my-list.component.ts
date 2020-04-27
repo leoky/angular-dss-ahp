@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DecisionService } from '../../services/decision.service';
 import { Decision } from '../../models/decision';
 import { UserService } from 'src/app/core/services/user.service';
+import { DialogConfirmComponent } from '../../components/dialog-confirm/dialog-confirm.component';
 
 @Component({
   selector: 'app-my-list',
@@ -15,6 +17,7 @@ export class MyListComponent implements OnInit {
 
   constructor(private decisionService: DecisionService,
               private userService: UserService,
+              private matDialog: MatDialog,
               private route: Router) { }
 
   ngOnInit() {
@@ -34,8 +37,24 @@ export class MyListComponent implements OnInit {
   }
 
   delete(id: string) {
-    this.decisionService.delete(id).subscribe(result => {
-      this.getData();
+    // dialog
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+
+    // parsing data to dialog
+    dialogConfig.data = {
+      title: 'Delete',
+      description: 'Are you sure you want to do this?'
+    };
+
+    this.matDialog.open(DialogConfirmComponent, dialogConfig)
+    .afterClosed().subscribe(result => {
+      if (result) {
+        this.decisionService.delete(id).subscribe(() => {
+          this.getData();
+        });
+      }
     });
+
   }
 }
