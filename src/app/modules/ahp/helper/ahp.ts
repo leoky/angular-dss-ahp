@@ -64,7 +64,11 @@ export class Ahp {
 
             // calculate CI
             const ci = (lamdaMax - pv.length) / (pv.length - 1);
-
+            console.log({total});
+            console.log({pv});
+            console.log({lamdaMax});
+            console.log({ci});
+            console.log(this.ri[pv.length - 3]);
             // calculate CR
             const cr = ci / this.ri[pv.length - 3];
             return cr;

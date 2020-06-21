@@ -124,9 +124,9 @@ export class CriteriaCalculateComponent implements OnInit {
       criteria.value = [];
 
       pairForm.forEach((x: any, mapIndex: number) => {
-        if (index === mapIndex && index < tempData.length - 1) {
-          criteria.value.push(1);
-        }
+        // if (index === mapIndex && index < tempData.length - 1) {
+        //   criteria.value.push(1);
+        // }
         if (x.pair.includes(criteria.name)) {
           if (criteria.name === x.choose) {
             criteria.value.push(x.value);
@@ -134,10 +134,12 @@ export class CriteriaCalculateComponent implements OnInit {
             criteria.value.push(1 / x.value);
           }
         }
-        if (index === mapIndex && index >= tempData.length - 1) {
-          criteria.value.push(1);
-        }
+        // if (index === mapIndex && index >= tempData.length - 1) {
+        //   criteria.value.push(1);
+        // }
       });
+      // insert value 1 to array base from index
+      criteria.value.splice(index, 0, 1);
     });
     // check Consistency ratio < 0.1
     const a = this.criteriaService.calculatePV(tempData);

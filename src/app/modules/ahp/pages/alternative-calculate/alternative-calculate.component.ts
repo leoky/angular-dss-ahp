@@ -166,10 +166,6 @@ export class AlternativeCalculateComponent implements OnInit {
 
       pairForm.forEach((x: any, mapIndex: number) => {
 
-        if (index === mapIndex && index < tempData.length - 1) {
-          alternative.value.push(1);
-        }
-
         if (x.pair.includes(alternative.name)) {
           if (alternative.name === x.choose) {
             alternative.value.push(x.value);
@@ -177,10 +173,9 @@ export class AlternativeCalculateComponent implements OnInit {
             alternative.value.push(1 / x.value);
           }
         }
-        if (index === mapIndex && index >= tempData.length - 1) {
-          alternative.value.push(1);
-        }
       });
+      // insert value 1 to array
+      alternative.value.splice(index, 0, 1);
     });
     const a = this.altService.calculatePV(tempData);
 
