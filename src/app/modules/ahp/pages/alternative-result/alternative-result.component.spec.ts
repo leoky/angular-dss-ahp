@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AlternativeResultComponent } from './alternative-result.component';
 
@@ -6,7 +6,7 @@ describe('AlternativeResultComponent', () => {
   let component: AlternativeResultComponent;
   let fixture: ComponentFixture<AlternativeResultComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ AlternativeResultComponent ]
     })

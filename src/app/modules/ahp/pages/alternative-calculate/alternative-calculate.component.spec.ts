@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AlternativeCalculateComponent } from './alternative-calculate.component';
 
@@ -6,7 +6,7 @@ describe('AlternativeCalculateComponent', () => {
   let component: AlternativeCalculateComponent;
   let fixture: ComponentFixture<AlternativeCalculateComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ AlternativeCalculateComponent ]
     })
